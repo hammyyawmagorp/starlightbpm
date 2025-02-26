@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: 'Starlight Building Maintenance',
   description:
     'Family-owned Building Maintenance company based in Brampton, Ontario',
+  icons: {
+    icon: '/icon.ico',
+  },
 }
 
 export default function RootLayout({
