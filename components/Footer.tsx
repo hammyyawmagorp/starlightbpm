@@ -5,7 +5,7 @@ import React from 'react'
 const Footer = () => {
   return (
     <footer className="flexCenter mt-20 bg-gray-500">
-      <div className="padding-container max-container flex w-full flex-col gap-14 pt-8">
+      <div className="padding-container max-container flex w-full flex-col gap-3 pt-8">
         <div className="flex flex-col items-start justify-center gap-[10%] md:flex-row">
           <Link href="/" className="mb-10">
             <Image src="/sbmicon.png" alt="logo" width={74} height={29} />
@@ -89,17 +89,20 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="flexCenter gap-2 text-black font-bold">
+        {/* <div className="flexCenter gap-2 text-logobrown-20 font-bold pt-4 text-xl">
           Serving:
           <span className="text-yellow-logo font-light">
-            Brampton, Toronto, Mississauga, Vaughan, Richmond Hill & Surrounding
+            Brampton, Toronto, Mississauga, Caledon, Georgetown and Surrounding
             Areas
           </span>
-        </div>
+        </div> */}
 
-        <div className="border" />
-        <p className="regular-14 w-full text-center text-yellow-logo pb-5">
-          2025 Starlight Building Maintenance | All rights reserved
+        <div className="border bg-logobrown-20"></div>
+        <p className="text-l w-full text-center text-yellow-logo">
+          Starlight Building Maintenance Inc. | 2025 All Rights Reserved
+        </p>
+        <p className="text-xs text-center text-yellow-logo pb-5">
+          Website Designed & Distributed by ©Zarik Tech
         </p>
       </div>
     </footer>

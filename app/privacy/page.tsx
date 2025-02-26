@@ -1,6 +1,6 @@
 const privacy = () => {
   return (
-    <section className="max-container padding-container flex flex-col gap-20 py-10 pb-32 md:gap-28 lg:py-20 xl:flex-col">
+    <section className="max-container padding-container flex flex-col gap-20 py-10 pb-15 md:gap-28 lg:py-20 xl:flex-col">
       <div className="flex flex-col w-full">
         <div className="flex flex-col items-start justify-start w-full">
           <h1 className="font-bold text-4xl mt-5 pt-5 ">Privacy Policy</h1>
@@ -8,7 +8,8 @@ const privacy = () => {
             Effective Date: <span className="font-light"> March 1, 2025</span>
           </div>
           <div className="text-lg font-normal ">
-            Starlight Building Maintenance <br></br>Brampton, ON, Canada{' '}
+            Starlight Building Maintenance Incorporated <br></br>Brampton, ON,
+            Canada{' '}
           </div>
         </div>
         <p className="mt-5 pt-5 font-inter indent-5">
@@ -30,7 +31,7 @@ const privacy = () => {
             about your service requests, appointments, and preferences.
           </p>
           <span className="font-semibold">Website Usage Data:</span> IP address,
-          browser type, and cookies (to improve our website experience).
+          browser type, and cookies.
         </div>
         <div className="mt-3 pt-3 font-inter">
           <p className="pb-1">
