@@ -13,6 +13,9 @@ module.exports = {
           20: '#e5feff',
           30: '#00344e',
         },
+        logobrown: {
+          10: '#9d4400',
+        },
         green: {
           50: '#30AF5B',
           90: '#292C27',

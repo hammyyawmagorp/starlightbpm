@@ -24,7 +24,7 @@ export default function Home() {
         <div className="flexCenter gap-4 pt-4">
           <Link href="/estimator">
             <button
-              className="flexCenter gap-2 rounded-full border btn_dark_gray hover:bg-logoblue-10 hover:border-gray hover:scale-110 hover:text-yellow-logo"
+              className="flexCenter gap-2 rounded-full border btn_dark_gray hover:bg-logoblue-10 hover:border-gray hover:scale-110 hover:text-yellow-logo hover:underline"
               type="button"
             >
               <label className="bold-16 whitespace-nowrap cursor-pointer ">
@@ -34,7 +34,7 @@ export default function Home() {
           </Link>
           <Link href="/about-us">
             <button
-              className="flexCenter gap-2 rounded-full border btn_lightblue  hover:scale-110 hover:btn_dark_gray"
+              className="flexCenter gap-2 rounded-full border btn_lightblue  hover:scale-110 hover:btn_dark_gray hover:underline"
               type="button"
             >
               <label className="bold-16 whitespace-nowrap cursor-pointer ">

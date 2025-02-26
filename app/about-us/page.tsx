@@ -5,7 +5,6 @@ export default function AboutUs() {
   return (
     <section className="max-container padding-container flex flex-col gap-20 py-10 pb-32 md:gap-28 lg:py-20 xl:flex-col ">
       <div className="flex flex-wrap items-center justify-between w-full">
-        {/* About Us Text */}
         <div className="w-full lg:w-1/2">
           <h1 className="font-bold text-logoblue-10 flexCenter mb-10 mt-10 text-5xl">
             Who Are We?

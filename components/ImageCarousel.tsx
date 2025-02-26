@@ -20,7 +20,7 @@ const captions = [
   'Decluttering Storage Units & Garages',
   'Estate Cleaning',
   'Office Cleaning',
-  'Carcass Removal',
+  'Dead Animal Removal',
 ]
 const ImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
