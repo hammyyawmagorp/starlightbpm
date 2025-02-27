@@ -4,7 +4,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <footer className="flexCenter mt-20 bg-gray-500">
+    <footer className="flexCenter mt-20">
       <div className="padding-container max-container flex w-full flex-col gap-3 pt-8">
         <div className="flex flex-col items-start justify-center gap-[10%] md:flex-row">
           <Link href="/" className="mb-10">
@@ -18,7 +18,7 @@ const Footer = () => {
                 <li>
                   <Link
                     href="/services"
-                    className="font-normal hover:text-yellow-logo"
+                    className="font-normal hover:text-logobrown-10 hover:scale-100"
                   >
                     Our Services
                   </Link>
@@ -26,7 +26,7 @@ const Footer = () => {
                 <li>
                   <Link
                     href="/about-us"
-                    className="font-normal hover:text-yellow-logo"
+                    className="font-normal hover:text-logobrown-10"
                   >
                     About Us
                   </Link>
@@ -34,7 +34,7 @@ const Footer = () => {
                 <li>
                   <Link
                     href="/privacy"
-                    className="font-normal hover:text-yellow-logo"
+                    className="font-normal hover:text-logobrown-10"
                   >
                     Privacy Policy
                   </Link>
@@ -50,7 +50,7 @@ const Footer = () => {
                     Email:
                     <a
                       href="mailto:starlightbpm@gmail.com"
-                      className="medium-14 whitespace-nowrap pl-2 text-blue-70 cursor-pointer hover:text-yellow-logo"
+                      className="medium-14 whitespace-nowrap pl-2 text-blue-70 cursor-pointer hover:text-logobrown-10"
                     >
                       starlightbpm@gmail.com
                     </a>
@@ -89,19 +89,12 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* <div className="flexCenter gap-2 text-logobrown-20 font-bold pt-4 text-xl">
-          Serving:
-          <span className="text-yellow-logo font-light">
-            Brampton, Toronto, Mississauga, Caledon, Georgetown and Surrounding
-            Areas
-          </span>
-        </div> */}
-
-        <div className="border bg-logobrown-20"></div>
-        <p className="text-l w-full text-center text-yellow-logo">
+        <div className="border "></div>
+        <p className="text-l w-full text-center text-logobrown-10">
           Starlight Building Maintenance Inc. | 2025 All Rights Reserved
         </p>
-        <p className="text-xs text-center text-yellow-logo pb-5">
+
+        <p className="text-xs text-center text-logobrown-10 pb-5">
           Website Designed & Distributed by ©Zarik Tech
         </p>
       </div>

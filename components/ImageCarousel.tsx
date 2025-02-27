@@ -22,6 +22,7 @@ const captions = [
   'Office Cleaning',
   'Dead Animal Removal',
 ]
+
 const ImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -34,6 +35,7 @@ const ImageCarousel = () => {
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
     )
   }
+
   useEffect(() => {
     const interval = setInterval(nextImage, 5000)
     return () => clearInterval(interval)
@@ -47,7 +49,7 @@ const ImageCarousel = () => {
           alt={`Slide ${currentIndex + 1}`}
           width={600}
           height={400}
-          className="object-cover w-full h-full"
+          className="object-cover w-full h-full rounded-lg"
         />
       </div>
       <p className="text-center mt-3 text-lg font-medium">

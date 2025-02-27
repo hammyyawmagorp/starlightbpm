@@ -43,7 +43,7 @@ const Navbar = () => {
         <Link href="/estimator">
           <div className="lg:flexCenter hidden">
             <button
-              className="group relative flexCenter gap-2 rounded-full border btn_dark_gray hover:bg-logoblue-10 hover:border-gray hover:scale-110 hover:text-yellow-logo"
+              className="group relative flexCenter gap-2 rounded-full border btn_dark_blue hover:border-gray hover:scale-110 hover:text-black"
               type="button"
             >
               <div className="relative w-8 h-8">
@@ -91,7 +91,7 @@ const Navbar = () => {
 
       {isOpen && (
         <div
-          className={`absolute top-16 left-0 w-full bg-white shadow-lg transition-all duration-300 origin-top z-50 ${
+          className={`absolute top-16 left-0 w-full site-bg text-white shadow-lg transition-all duration-300 origin-top z-50 ${
             isOpen
               ? 'scale-y-100 opacity-100 visible'
               : 'scale-y-0 opacity-0 invisible'
@@ -101,7 +101,7 @@ const Navbar = () => {
           <Link href="/estimator">
             <div className="lg:flexCenter flexCenter pt-2">
               <button
-                className="group relative flexCenter gap-2 rounded-full border btn_dark_gray hover:bg-logoblue-10 hover:border-gray hover:scale-110 hover:text-yellow-logo"
+                className="group relative flexCenter gap-2 rounded-full border hover:border-gray hover:scale-110 hover:text-black bg-logoblue-30 px-8 py-4 text-white transition-all hover:bg-logoblue-50"
                 type="button"
               >
                 <div className="relative w-8 h-8">
@@ -112,7 +112,6 @@ const Navbar = () => {
                     objectFit="contain"
                     className="transition-opacity duration-300 group-hover:opacity-0"
                   />
-
                   <div className="absolute inset-0 flexCenter opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <Image
                       src="/dollarsign.svg"

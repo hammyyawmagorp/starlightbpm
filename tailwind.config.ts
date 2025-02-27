@@ -13,6 +13,9 @@ module.exports = {
           20: '#e5feff',
           30: '#00344e',
           40: '#e5feff',
+          50: '#5489d2',
+          60: '#1ca0d7',
+          light: '#e6f4f1',
         },
         logobrown: {
           10: '#9d4400',
@@ -39,13 +42,6 @@ module.exports = {
           50: '#FEC601',
           logo: '#eee8a9',
         },
-      },
-      backgroundImage: {
-        'bg-img-1': "url('/img-1.png')",
-        'bg-img-2': "url('/img-2.png')",
-        'feature-bg': "url('/feature-bg.png')",
-        pattern: "url('/pattern.png')",
-        'pattern-2': "url('/pattern-bg.png')",
       },
       screens: {
         xs: '400px',

@@ -1,18 +1,45 @@
-import Link from 'next/link'
+'use client'
 
+import Link from 'next/link'
 import ImageCarousel from '@/components/ImageCarousel'
+import { motion } from 'framer-motion'
 
 export default function Home() {
   return (
-    <section className="flex flex-col md:flex-row items-center max-container padding-container pt-5 mt-5">
-      <div className="w-full md:w-1/2 p-6 ">
-        <h1 className="text-6xl font-bebas pb-3">
+    <section className="flex flex-col md:flex-row items-center max-w-screen-xl mx-auto p-6 pt-5 mt-5">
+      <motion.div
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+        className="w-full md:w-1/2 p-6"
+      >
+        {/* H1 Heading */}
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="text-6xl font-bebas pb-3"
+        >
           Starlight Building Maintenance
-        </h1>
-        <h2 className="text-2xl font-bold font-inter pb-3 text-gray-50 italic">
+        </motion.h1>
+
+        {/* H2 Subheading */}
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }} // Delayed after H1
+          className="text-2xl font-bold font-inter pb-3 text-gray-50 italic"
+        >
           From windows to waste removal, we’ve got you covered
-        </h2>
-        <p className="text-lg mt-4">
+        </motion.h2>
+
+        {/* Paragraph */}
+        <motion.p
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut', delay: 0.6 }} // Delayed after H2
+          className="text-lg mt-4"
+        >
           Whether you need spotless windows, thorough office cleaning, or
           reliable waste and carcass removal, our family-owned business offers a
           wide range of cleaning and maintenance services. With over 15 years of
@@ -20,33 +47,46 @@ export default function Home() {
           routine cleaning and specialized property care. No job is too big or
           small—we approach every task with the same dedication and attention to
           detail that has earned us the trust of our clients.
-        </p>
-        <div className="flexCenter gap-4 pt-4">
+        </motion.p>
+
+        {/* Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut', delay: 1 }} // Delayed after paragraph
+          className="flexCenter gap-4 pt-4"
+        >
           <Link href="/estimator">
             <button
-              className="flexCenter gap-2 rounded-full border btn_dark_gray hover:bg-logoblue-10 hover:border-gray hover:scale-110 hover:text-yellow-logo hover:underline"
+              className="flexCenter gap-2 rounded-full border btn_blue hover:underline"
               type="button"
             >
-              <label className="bold-16 whitespace-nowrap cursor-pointer ">
+              <label className="bold-16 whitespace-nowrap cursor-pointer">
                 Free Estimate
               </label>
             </button>
           </Link>
           <Link href="/about-us">
             <button
-              className="flexCenter gap-2 rounded-full border btn_lightblue  hover:scale-110 hover:btn_dark_gray hover:underline"
+              className="flexCenter gap-2 rounded-full border btn_blue hover:btn_dark_gray hover:underline"
               type="button"
             >
-              <label className="bold-16 whitespace-nowrap cursor-pointer ">
+              <label className="bold-16 whitespace-nowrap cursor-pointer">
                 Why Trust Us
               </label>
             </button>
           </Link>
-        </div>
-      </div>
-      <div className="w-full md:w-1/2 p-6 rounded-lg">
+        </motion.div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, ease: 'easeOut', delay: 1 }}
+        className="w-full md:w-1/2 p-6 rounded-lg" // Rounded on container
+      >
         <ImageCarousel />
-      </div>
+      </motion.div>
     </section>
   )
 }
