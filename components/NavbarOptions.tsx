@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { NAV_LINKS } from '@/constants'
+import OutlineBtn from '@/components/OutlineBtn'
 
 const NavbarOptions = () => {
   return (
@@ -11,8 +12,8 @@ const NavbarOptions = () => {
               href={link.href}
               className="regular-16 text-gray-50 flexCenter cursor-pointer pb-1.5 transition-all hover:font-bold"
             >
-              {link.label}
-            </Link>
+              <OutlineBtn>{link.label}</OutlineBtn>
+            </Link>{' '}
           </li>
         ))}
       </ul>

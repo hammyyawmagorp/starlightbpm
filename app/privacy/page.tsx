@@ -2,12 +2,12 @@ const privacy = () => {
   return (
     <section className="max-container padding-container flex flex-col gap-20 py-10 pb-15 md:gap-28 lg:py-20 xl:flex-col">
       <div className="flex flex-col w-full">
-        <div className="flex flex-col items-start justify-start w-full">
+        <div className="flex flex-col items-start justify-start w-full ">
           <h1 className="font-bold text-4xl mt-5 pt-5 ">Privacy Policy</h1>
-          <div className="text-lg font-medium mt-2 mb-1">
+          <div className="text-lg font-medium mt-2 mb-1  ">
             Effective Date: <span className="font-light"> March 1, 2025</span>
           </div>
-          <div className="text-lg font-normal ">
+          <div className="text-lg font-normal text-logobrown-10">
             Starlight Building Maintenance Incorporated <br></br>Brampton, ON,
             Canada{' '}
           </div>

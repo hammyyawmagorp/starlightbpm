@@ -3,7 +3,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
-
 import NavbarOptions from './NavbarOptions'
 import Hamburger from './Hamburger'
 
@@ -35,7 +34,13 @@ const Navbar = () => {
     <div className="relative">
       <nav className="flexBetween max-container padding-container relative z-30 py-5 ">
         <Link href="/">
-          <Image src="/sbm-logo-1.svg" alt="logo" width={300} height={300} />
+          <Image
+            src="/sbm-logo-1.svg"
+            alt="logo"
+            width={300}
+            height={300}
+            className="pr-2"
+          />
         </Link>
         <div className="hidden lg:flexCenter">
           <NavbarOptions />

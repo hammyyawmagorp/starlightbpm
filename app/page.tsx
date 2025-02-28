@@ -13,7 +13,6 @@ export default function Home() {
         transition={{ duration: 0.8, ease: 'easeOut' }}
         className="w-full md:w-1/2 p-6"
       >
-        {/* H1 Heading */}
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
