@@ -52,7 +52,7 @@ const ImageCarousel = () => {
           className="object-cover w-full h-full rounded-lg"
         />
       </div>
-      <p className="text-center mt-3 text-lg font-medium">
+      <p className="text-center mt-3 text-lg font-medium font-inter">
         {captions[currentIndex]}
       </p>
       <button

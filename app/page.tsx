@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import ImageCarousel from '@/components/ImageCarousel'
 import { motion } from 'framer-motion'
+import OutlineBtn from '@/components/OutlineBtn'
 
 export default function Home() {
   return (
@@ -22,21 +23,19 @@ export default function Home() {
           Starlight Building Maintenance
         </motion.h1>
 
-        {/* H2 Subheading */}
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }} // Delayed after H1
+          transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
           className="text-2xl font-bold font-inter pb-3 text-gray-50 italic"
         >
           From windows to waste removal, we’ve got you covered
         </motion.h2>
 
-        {/* Paragraph */}
         <motion.p
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut', delay: 0.6 }} // Delayed after H2
+          transition={{ duration: 0.8, ease: 'easeOut', delay: 0.6 }}
           className="text-lg mt-4"
         >
           Whether you need spotless windows, thorough office cleaning, or
@@ -48,32 +47,30 @@ export default function Home() {
           detail that has earned us the trust of our clients.
         </motion.p>
 
-        {/* Buttons */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut', delay: 1 }} // Delayed after paragraph
+          transition={{ duration: 0.8, ease: 'easeOut', delay: 1 }}
           className="flexCenter gap-4 pt-4"
         >
           <Link href="/estimator">
-            <button
-              className="flexCenter gap-2 rounded-full border btn_blue hover:underline"
-              type="button"
-            >
-              <label className="bold-16 whitespace-nowrap cursor-pointer">
-                Free Estimate
-              </label>
-            </button>
+            <OutlineBtn>
+              <div className="flexCenter gap-2 border btn_blue hover:underline">
+                {' '}
+                <label className="bold-16 whitespace-nowrap cursor-pointer">
+                  What We Offer
+                </label>
+              </div>
+            </OutlineBtn>
           </Link>
           <Link href="/about-us">
-            <button
-              className="flexCenter gap-2 rounded-full border btn_blue hover:btn_dark_gray hover:underline"
-              type="button"
-            >
-              <label className="bold-16 whitespace-nowrap cursor-pointer">
-                Why Trust Us
-              </label>
-            </button>
+            <OutlineBtn>
+              <div className="flexCenter gap-2 border btn_blue hover:underline">
+                <label className="bold-16 whitespace-nowrap cursor-pointer">
+                  Why Trust Us
+                </label>
+              </div>
+            </OutlineBtn>
           </Link>
         </motion.div>
       </motion.div>
@@ -82,7 +79,7 @@ export default function Home() {
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, ease: 'easeOut', delay: 1 }}
-        className="w-full md:w-1/2 p-6 rounded-lg" // Rounded on container
+        className="w-full md:w-1/2 p-6 rounded-lg"
       >
         <ImageCarousel />
       </motion.div>

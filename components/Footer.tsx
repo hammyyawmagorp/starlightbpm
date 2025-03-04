@@ -6,7 +6,8 @@ const Footer = () => {
   return (
     <footer className="flexCenter mt-20">
       <div className="padding-container max-container flex w-full flex-col gap-3 pt-8">
-        <div className="flex flex-col items-start justify-center gap-[10%] md:flex-row">
+        <div className="border "></div>
+        <div className="flex flex-col items-start justify-center gap-[10%] mt-2 md:flex-row">
           <Link href="/" className="mb-10">
             <Image src="/sbmicon.png" alt="logo" width={74} height={29} />
           </Link>
@@ -15,26 +16,26 @@ const Footer = () => {
             <div>
               <h4 className="bold-18 whitespace-nowrap pb-3">Learn More</h4>
               <ul className="regular-14 flex flex-col gap-4">
-                <li>
+                <li className="hover:scale-110">
                   <Link
                     href="/services"
-                    className="font-normal hover:text-logobrown-10 hover:scale-100"
+                    className="font-normal hover:text-logobrown-10 hover:font-semibold"
                   >
                     Our Services
                   </Link>
                 </li>
-                <li>
+                <li className="hover:scale-110">
                   <Link
                     href="/about-us"
-                    className="font-normal hover:text-logobrown-10"
+                    className="font-normal hover:text-logobrown-10 hover:font-semibold"
                   >
                     About Us
                   </Link>
                 </li>
-                <li>
+                <li className="hover:scale-110">
                   <Link
                     href="/privacy"
-                    className="font-normal hover:text-logobrown-10"
+                    className="font-normal hover:text-logobrown-10 hover:font-semibold"
                   >
                     Privacy Policy
                   </Link>
@@ -88,12 +89,10 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
         <div className="border "></div>
         <p className="text-l w-full text-center text-logobrown-10">
           Starlight Building Maintenance Inc. | 2025 All Rights Reserved
         </p>
-
         <p className="text-xs text-center text-logobrown-10 pb-5">
           Website Designed & Distributed by ©Zarik Tech
         </p>

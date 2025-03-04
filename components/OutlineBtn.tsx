@@ -48,8 +48,8 @@ interface OutlineBtnProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const OutlineBtn: React.FC<OutlineBtnProps> = ({
   children = 'Click Me',
   textSize = 'bold-16',
-  textColor = 'text-gray-50',
-  hoverColor = 'hover:text-logoblue-30',
+  textColor = '',
+  hoverColor = '',
   borderColor = 'bg-logoblue-30',
   padding = 'px-2 py-1',
 
