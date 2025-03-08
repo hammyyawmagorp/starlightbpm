@@ -21,7 +21,7 @@ export default function Services() {
               visible: { opacity: 1, y: 0 },
             }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="font-bold text-logoblue-30 flexCenter mb-10 mt-10 text-5xl"
+            className="font-bold text-logoblue-30 flexCenter mb-10 mt-8 text-5xl"
           >
             Our Services
           </motion.h1>

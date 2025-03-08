@@ -14,7 +14,7 @@ const Hamburger = ({
         initial={false}
         animate={isOpen ? 'open' : 'closed'}
         onClick={toggleMenu}
-        className="relative h-12 w-12 rounded-full bg-transparent transition-colors hover:bg-logoblue-30"
+        className="relative h-12 w-12 rounded-full bg-transparent transition-colors hover:bg-logoblue-60"
       >
         <motion.span
           variants={VARIANTS.top}

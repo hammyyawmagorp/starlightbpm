@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import OutlineBtn from '@/components/OutlineBtn'
+import Link from 'next/link'
 
 export default function ContactForm() {
   const [name, setName] = useState('')
@@ -10,6 +10,7 @@ export default function ContactForm() {
   const [phoneTouched, setPhoneTouched] = useState(false)
   const [message, setMessage] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false) // New state to track submission
+  const [isSubmitting, setIsSubmitting] = useState(false) // Track submitting state
 
   const isEmailValid = email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
   const isPhoneValid = phone.replace(/\D/g, '').length >= 10
@@ -33,22 +34,41 @@ export default function ContactForm() {
     // Log the form data to the console (replace this with your emailJS integration)
     console.log('Form Data:', formData)
 
-    // Set the form to submitted
-    setIsSubmitted(true)
+    // Set the form to submitting state
+    setIsSubmitting(true)
 
-    // Optionally, reset the form after submission
-    setName('')
-    setEmail('')
-    setPhone('')
-    setMessage('')
+    // Wait for 1.5 seconds before displaying the success message
+    setTimeout(() => {
+      setIsSubmitting(false)
+      setIsSubmitted(true)
+
+      // Optionally, reset the form after submission
+      setName('')
+      setEmail('')
+      setPhone('')
+      setMessage('')
+    }, 1500)
   }
 
   return (
     <div className="w-full p-2 m-1">
       {isSubmitted ? (
-        <p className="text-lg text-center font-bold uppercase text-logoblue-30 flexCenter pt-5 mt-3 pb-5 mb-3">
-          Thanks! We&apos;ll be in touch soon
-        </p>
+        <div>
+          <p className="text-lg text-center font-bold uppercase text-logoblue-30 flexCenter pt-5 mt-3 pb-3 mb-1">
+            Thanks! We&apos;ll be in touch soon
+          </p>
+          <p className="text-lg text-center font-bold text-logoblue-30 flexCenter">
+            Got some time? Check out our blog:
+          </p>
+
+          <div className="text-center pt-3">
+            <Link href="/blog">
+              <button className="px-6 py-2 bg-yellow-logo text-black w-fit transition-all shadow-[3px_3px_0px_midnightblue] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-30 hover:text-white font-medium uppercase hover:lowercase ">
+                Blog
+              </button>
+            </Link>
+          </div>
+        </div>
       ) : (
         <form onSubmit={handleSubmit}>
           <h1 className="font-bold text-logoblue-30 text-4xl mb-4 text-center">
@@ -185,8 +205,19 @@ export default function ContactForm() {
           </div>
 
           <div className="flex items-center justify-center">
-            <button className="px-6 py-2 bg-yellow-logo text-black w-fit transition-all shadow-[3px_3px_0px_black] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-30 hover:text-white font-semibold uppercase hover:lowercase">
-              Submit
+            <button className="px-6 py-2 bg-yellow-logo text-black w-fit transition-all shadow-[3px_3px_0px_midnightblue] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-30 hover:text-white font-semibold uppercase hover:lowercase">
+              {isSubmitting ? (
+                <div
+                  className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_s_linear_infinite]"
+                  role="status"
+                >
+                  <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                    Loading...
+                  </span>
+                </div>
+              ) : (
+                'Submit'
+              )}
             </button>
           </div>
         </form>
