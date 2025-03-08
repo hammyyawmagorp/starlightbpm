@@ -13,7 +13,7 @@ export default function NotFound() {
       </p>
       <Link href="/" className="text-white font-bold ">
         <OutlineBtn>
-          <div className="bg-logoblue-50 p-3 hover:scale-110">
+          <div className="bg-logoblue-60 p-3 hover:scale-110 hover:text-yellow-logo hover:bg-logoblue-50">
             Go to Homepage
           </div>
         </OutlineBtn>

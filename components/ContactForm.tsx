@@ -44,18 +44,19 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="w-full lg:w-1/2 p-6">
-      <h1 className="font-bold text-logoblue-10 text-4xl mb-4">Contact Us</h1>
-
+    <div className="w-full p-2 m-1">
       {isSubmitted ? (
-        <p className="text-lg text-logoblue-30">
-          Thank you! We will be in touch soon.
+        <p className="text-lg text-center font-bold uppercase text-logoblue-30 flexCenter pt-5 mt-3 pb-5 mb-3">
+          Thanks! We&apos;ll be in touch soon
         </p>
       ) : (
         <form onSubmit={handleSubmit}>
+          <h1 className="font-bold text-logoblue-30 text-4xl mb-4 text-center">
+            Contact Us
+          </h1>
           <div className="mb-4">
-            <label htmlFor="name" className="block text-lg mb-2">
-              Name
+            <label htmlFor="name" className="block text-lg mb-2 font-semibold">
+              Name:
             </label>
             <input
               type="text"
@@ -65,7 +66,7 @@ export default function ContactForm() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               onBlur={() => setNameTouched(true)}
-              className={`w-full max-w-[600px] p-2 border rounded-lg hover:bg-logobrown-20 focus:outline-none 
+              className={`w-full max-w-[600px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none 
                 ${
                   nameTouched && !isNameValid
                     ? 'border-red-500 text-red-600'
@@ -93,8 +94,11 @@ export default function ContactForm() {
 
           <div className="mb-4 flex flex-col sm:flex-row sm:space-x-4">
             <div className="flex-1">
-              <label htmlFor="email" className="block text-lg mb-2">
-                Email Address
+              <label
+                htmlFor="email"
+                className="block text-lg mb-2 font-semibold"
+              >
+                Email Address:
               </label>
               <input
                 type="email"
@@ -104,7 +108,7 @@ export default function ContactForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onBlur={() => setEmailTouched(true)}
-                className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-lg hover:bg-logobrown-20 focus:outline-none
+                className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none
                   ${
                     emailTouched && !isEmailValid
                       ? 'border-red-500 text-red-600'
@@ -126,8 +130,11 @@ export default function ContactForm() {
             </div>
 
             <div className="flex-1">
-              <label htmlFor="phone" className="block text-lg mb-2">
-                Phone Number
+              <label
+                htmlFor="phone"
+                className="block text-lg mb-2 font-semibold"
+              >
+                Phone Number:
               </label>
               <input
                 type="tel"
@@ -137,7 +144,7 @@ export default function ContactForm() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 onBlur={() => setPhoneTouched(true)}
-                className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-lg hover:bg-logobrown-20 focus:outline-none
+                className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none
                   ${
                     phoneTouched && !isPhoneValid
                       ? 'border-red-500 text-red-600'
@@ -159,32 +166,29 @@ export default function ContactForm() {
             </div>
           </div>
 
-          <div className="mb-4">
-            <label htmlFor="message" className="block text-lg mb-2">
-              Message
+          <div className="mb-4 ">
+            <label
+              htmlFor="message"
+              className="block text-lg mb-2 font-semibold"
+            >
+              Message:
             </label>
             <textarea
               id="message"
               name="message"
-              placeholder="Please provide some details about the work..."
+              placeholder="Tell us more about the work..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="w-full max-w-[700px] h-40 sm:h-48 p-2 border border-logoblue-30 rounded-lg hover:bg-logobrown-20"
+              className="w-full max-w-[700px] h-40 sm:h-48 p-2 border border-logoblue-30 rounded-sm hover:bg-logobrown-20"
               required
             />
           </div>
 
-          <OutlineBtn>
-            <div className="w-full bg-logoblue-10 text-white p-3 relative overflow-hidden group hover:bg-logoblue-30 hover:scale-100">
-              <span className="relative z-10 transition-opacity duration-300 group-hover:opacity-0">
-                Submit
-              </span>
-              <div
-                className="absolute left-[-100%] top-0 h-full w-full bg-no-repeat bg-center bg-contain transition-all duration-300 ease-in-out group-hover:translate-x-full"
-                style={{ backgroundImage: "url('/submit-btn-img.svg')" }}
-              ></div>
-            </div>
-          </OutlineBtn>
+          <div className="flex items-center justify-center">
+            <button className="px-6 py-2 bg-yellow-logo text-black w-fit transition-all shadow-[3px_3px_0px_black] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-30 hover:text-white font-semibold uppercase hover:lowercase">
+              Submit
+            </button>
+          </div>
         </form>
       )}
     </div>
