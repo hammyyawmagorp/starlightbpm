@@ -58,13 +58,13 @@ export default function ContactForm() {
             Thanks! We&apos;ll be in touch soon
           </p>
           <p className="text-lg text-center font-bold text-logoblue-30 flexCenter">
-            Got some time? Check out our blog:
+            Got more questions? Check out our FAQs:
           </p>
 
           <div className="text-center pt-3">
             <Link href="/blog">
-              <button className="px-6 py-2 bg-yellow-logo text-black w-fit transition-all shadow-[3px_3px_0px_midnightblue] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-30 hover:text-white font-medium uppercase hover:lowercase ">
-                Blog
+              <button className="px-6 py-2 bg-logoblue-30 text-yellow-logo w-fit transition-all shadow-[3px_3px_0px_steelblue] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-50 hover:text-black font-semibold ">
+                FAQs
               </button>
             </Link>
           </div>
@@ -205,7 +205,7 @@ export default function ContactForm() {
           </div>
 
           <div className="flex items-center justify-center">
-            <button className="px-6 py-2 bg-yellow-logo text-black w-fit transition-all shadow-[3px_3px_0px_midnightblue] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-30 hover:text-white font-semibold uppercase hover:lowercase">
+            <button className="px-6 py-2 bg-logoblue-30 text-yellow-logo w-fit transition-all shadow-[3px_3px_0px_steelblue] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-50 hover:text-black font-semibold uppercase">
               {isSubmitting ? (
                 <div
                   className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_s_linear_infinite]"

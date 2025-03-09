@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import CardLayout from '@/components/CardLayout'
 
 export default function Services() {
   return (
@@ -25,6 +26,7 @@ export default function Services() {
           >
             Our Services
           </motion.h1>
+          <CardLayout />
         </motion.div>
       </div>
     </section>
