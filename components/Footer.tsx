@@ -9,7 +9,16 @@ const Footer = () => {
         <div className="border "></div>
         <div className="flex flex-col items-start justify-center gap-[10%] mt-2 md:flex-row">
           <Link href="/" className="mb-10">
-            <Image src="/sbmicon.png" alt="logo" width={74} height={29} />
+            <Image
+              src="/sbmicon.png"
+              alt="Starlight Building Maintenance Icon"
+              width={50}
+              height={50}
+              priority={true}
+              loading="eager"
+              unoptimized={true}
+              className="object-contain hover:scale-110 transition-transform"
+            />
           </Link>
 
           <div className="flex flex-wrap gap-10 sm:justify-between md:flex-1">

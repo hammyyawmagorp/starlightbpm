@@ -8,18 +8,29 @@ export default function ContactForm() {
   const [emailTouched, setEmailTouched] = useState(false)
   const [phone, setPhone] = useState('')
   const [phoneTouched, setPhoneTouched] = useState(false)
+  const [postalCode, setPostalCode] = useState('')
+  const [postalCodeTouched, setPostalCodeTouched] = useState(false)
   const [message, setMessage] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false) // New state to track submission
   const [isSubmitting, setIsSubmitting] = useState(false) // Track submitting state
+  const [showPostalError, setShowPostalError] = useState(false) // Add this new state
 
   const isEmailValid = email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
   const isPhoneValid = phone.replace(/\D/g, '').length >= 10
   const isNameValid = name.match(/^[a-zA-Z\s]+$/) && name.length >= 2
+  const isPostalCodeValid = postalCode.match(
+    /^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/
+  )
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!isEmailValid || !isPhoneValid || !isNameValid) {
+    // Show postal error if invalid on submit attempt
+    if (!isPostalCodeValid) {
+      setShowPostalError(true)
+    }
+
+    if (!isEmailValid || !isPhoneValid || !isNameValid || !isPostalCodeValid) {
       console.log('Error! Try again later.')
       return
     }
@@ -28,6 +39,7 @@ export default function ContactForm() {
       name,
       email,
       phone,
+      postalCode,
       message,
     }
 
@@ -37,17 +49,48 @@ export default function ContactForm() {
     // Set the form to submitting state
     setIsSubmitting(true)
 
-    // Wait for 1.5 seconds before displaying the success message
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setIsSubmitted(true)
+    try {
+      const response = await fetch('/api/submitForm', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
 
-      // Optionally, reset the form after submission
-      setName('')
-      setEmail('')
-      setPhone('')
-      setMessage('')
-    }, 1500)
+      const data = await response.json()
+
+      if (response.ok) {
+        // Wait for 1.5 seconds before displaying the success message
+        setTimeout(() => {
+          setIsSubmitting(false)
+          setIsSubmitted(true)
+
+          // Optionally, reset the form after submission
+          setName('')
+          setEmail('')
+          setPhone('')
+          setPostalCode('')
+          setMessage('')
+        }, 1500)
+      } else {
+        console.log('Error submitting form:', data.message)
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+    }
+  }
+
+  // Add this handler for postal code changes
+  const handlePostalCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setPostalCode(value)
+    if (value) {
+      // Only show error if there's a value
+      setShowPostalError(!value.match(/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/))
+    } else {
+      setShowPostalError(false)
+    }
   }
 
   return (
@@ -62,7 +105,7 @@ export default function ContactForm() {
           </p>
 
           <div className="text-center pt-3">
-            <Link href="/blog">
+            <Link href="/FAQs">
               <button className="px-6 py-2 bg-logoblue-30 text-yellow-logo w-fit transition-all shadow-[3px_3px_0px_steelblue] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-50 hover:text-black font-semibold ">
                 FAQs
               </button>
@@ -181,6 +224,37 @@ export default function ContactForm() {
               {phoneTouched && phone.replace(/\D/g, '').length < 10 && (
                 <p className="mt-1 text-sm text-red-600">
                   Phone number must be at least 10 digits.
+                </p>
+              )}
+            </div>
+            <div className="flex-1">
+              <label
+                htmlFor="postalCode"
+                className="block text-lg mb-2 font-semibold"
+              >
+                Postal Code:
+              </label>
+              <input
+                type="text"
+                id="postalCode"
+                name="postalCode"
+                placeholder="Postal Code..."
+                value={postalCode}
+                onChange={handlePostalCodeChange} // Use the new handler
+                onBlur={() => setPostalCodeTouched(true)}
+                className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none
+                  ${showPostalError ? 'border-red-500 text-red-600' : ''}
+                  ${
+                    postalCodeTouched && isPostalCodeValid
+                      ? 'border-green-500'
+                      : 'border-logoblue-30'
+                  }
+                `}
+                required
+              />
+              {showPostalError && (
+                <p className="mt-1 text-sm text-red-600">
+                  Please enter a valid postal code (e.g., A1A 1A1)
                 </p>
               )}
             </div>
