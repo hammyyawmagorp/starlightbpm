@@ -8,11 +8,17 @@ datasource db {
 }
 
 model customer {
-  id          Int       @id @default(autoincrement()) 
-  name        String?   @db.VarChar(255)
-  email       String?   @db.VarChar(255)
-  phone       String?   @db.VarChar(255)
-  postal_code String?   @db.VarChar(255)
+  id          Int     @id @default(autoincrement())
+  name        String? @db.VarChar(255)
+  email       String? @db.VarChar(255)
+  phone       String? @db.VarChar(255)
+  postal_code String? @db.VarChar(255)
   message     String?
+}
 
+model services {
+  id          Int     @id @default(autoincrement())
+  title       String  @db.VarChar(255)
+  description String
+  btn         String? @db.VarChar(255)
 }

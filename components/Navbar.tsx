@@ -15,29 +15,30 @@ const Navbar = () => {
     setIsOpen((prev) => !prev)
   }
 
-  // Close menu automatically when the route changes
   useEffect(() => {
     setIsOpen(false)
   }, [pathname])
 
-  // Debounced resize event handler
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout
+    const handleScroll = () => {
+      if (isOpen) {
+        setIsOpen(false)
+      }
+    }
 
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [isOpen])
+
+  useEffect(() => {
     const handleResize = () => {
-      clearTimeout(timeoutId)
-      timeoutId = setTimeout(() => {
-        if (window.innerWidth >= 1024) {
-          setIsOpen(false)
-        }
-      }, 100) // Debounce delay
+      if (window.innerWidth >= 1024) {
+        setIsOpen(false)
+      }
     }
 
     window.addEventListener('resize', handleResize)
-    return () => {
-      clearTimeout(timeoutId)
-      window.removeEventListener('resize', handleResize)
-    }
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   return (
@@ -88,7 +89,6 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Only render the mobile menu when open to prevent flickering */}
       {isOpen && (
         <div className="absolute top-16 left-0 w-full site-bg text-white shadow-lg transition-all duration-300 origin-top z-50 mt-[10rem] pb-3">
           <NavbarOptions />

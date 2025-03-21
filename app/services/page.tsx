@@ -1,34 +1,78 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import CardLayout from '@/components/CardLayout'
+import { useEffect, useState } from 'react'
+import { TiltCard } from '@/components/ui/TiltCard'
 
-export default function Services() {
-  return (
-    <section className="max-container padding-container flex flex-col gap-20 py-10 pb-15 md:gap-28 lg:py-20 xl:flex-col">
-      <div className="flex flex-col w-full flexCenter">
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: { opacity: 0, y: 50 },
-            visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.3 } },
-          }}
-          className="w-full lg:w-1/2"
-        >
-          <motion.h1
-            variants={{
-              hidden: { opacity: 0, y: 50 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="font-bold text-logoblue-30 flexCenter mb-10 mt-8 text-5xl"
-          >
-            Our Services
-          </motion.h1>
-          <CardLayout />
-        </motion.div>
+interface Service {
+  id: number
+  title: string
+  description: string
+  btn: string
+}
+
+export default function ServicesPage() {
+  const [services, setServices] = useState<Service[]>([])
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await fetch('/api/getCardInfo')
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        const result = await response.json()
+
+        if (result.error) {
+          throw new Error(result.error)
+        }
+
+        if (!result.data || !Array.isArray(result.data)) {
+          throw new Error('Invalid response format')
+        }
+
+        setServices(result.data)
+      } catch (err) {
+        console.error('Error fetching services:', err)
+        setError(
+          err instanceof Error ? err.message : 'Failed to fetch services'
+        )
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchServices()
+  }, [])
+
+  if (loading) {
+    return <div className="container mx-auto p-4">Loading services...</div>
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto p-4">
+        <div className="text-red-500">Error: {error}</div>
       </div>
-    </section>
+    )
+  }
+
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-6 mt-6 pt-6 text-center">
+        Our Services
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+        {services.map((service) => (
+          <TiltCard
+            key={service.id}
+            title={service.title}
+            description={service.description}
+            btn={service.btn}
+          />
+        ))}
+      </div>
+    </div>
   )
 }
