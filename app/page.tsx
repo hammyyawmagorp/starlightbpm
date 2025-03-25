@@ -110,14 +110,13 @@ export default function Home() {
               <motion.p className="mb-5">
                 With <strong>over 15 years</strong> in business, we take pride
                 in delivering dependable, high-quality cleaning services.
-                Whether it&apos;s maintaining a commercial property, cleaning up
-                after construction, or organizing a cluttered space, we approach
-                every job with care and professionalism.
+                Whether maintaining a commercial property, cleaning up after
+                construction, or organizing a cluttered space, we approach every
+                job with care and professionalism.
               </motion.p>
               <motion.p className="mb-5">
-                When you work with us, you&apos;re in trusted hands! Because for
-                us, cleaning isn&apos;t just a service, it&apos;s a family
-                tradition.
+                When you work with us, you are in trusted hands! Because for us,
+                cleaning is not just a service, it is a family tradition.
               </motion.p>
               <motion.p className="text-logobrown-10 flexCenter">
                 <strong className="pr-2">Areas Serviced:</strong>

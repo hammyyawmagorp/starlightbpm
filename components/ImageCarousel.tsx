@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
@@ -22,7 +22,6 @@ const captions = [
   'Office Cleaning',
   'Dead Animal Removal',
 ]
-
 const ImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [images, setImages] = useState(baseImages)
@@ -34,12 +33,13 @@ const ImageCarousel = () => {
     setImages(baseImages.map((img) => `${img}?v=${timestamp}`))
   }, [])
 
-  const nextImage = () => {
+  // Memoizing nextImage to avoid unnecessary re-renders
+  const nextImage = useCallback(() => {
     if (isTransitioning) return // Prevent rapid transitions
     setIsTransitioning(true)
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)
     setTimeout(() => setIsTransitioning(false), 500) // Allow transitions after 500ms
-  }
+  }, [isTransitioning, images.length])
 
   const prevImage = () => {
     if (isTransitioning) return // Prevent rapid transitions
@@ -59,7 +59,7 @@ const ImageCarousel = () => {
 
     const interval = setInterval(nextSlide, 5000)
     return () => clearInterval(interval)
-  }, [isTransitioning])
+  }, [nextImage, isTransitioning]) // Add nextImage as a dependency here
 
   return (
     <div className="relative w-full max-w-[600px] mx-auto">
