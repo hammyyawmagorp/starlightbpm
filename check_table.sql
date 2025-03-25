@@ -1,5 +1,5 @@
--- Check table structure
 SELECT 
+    table_name,
     column_name, 
     data_type, 
     column_default,
@@ -14,4 +14,6 @@ LEFT JOIN information_schema.key_column_usage k
     AND c.table_name = k.table_name
 LEFT JOIN information_schema.table_constraints tc
     ON k.constraint_name = tc.constraint_name
-WHERE c.table_name = 'services'; 
+WHERE c.table_schema = 'public'
+AND c.table_name IN ('faqs', 'services', 'customer')
+ORDER BY table_name, column_name;

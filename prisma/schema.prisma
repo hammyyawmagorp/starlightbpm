@@ -22,3 +22,9 @@ model services {
   description String
   btn         String? @db.VarChar(255)
 }
+
+model faqs {
+  id      Int    @id @default(autoincrement())
+  title   String @db.VarChar(255)
+  content String
+}

@@ -1,38 +1,3 @@
-// import React from 'react'
-
-// const Example = () => {
-//   return (
-//     <div className="grid min-h-[200px] place-content-center bg-slate-900 p-4">
-//       <DrawOutlineButton>Hover me</DrawOutlineButton>
-//     </div>
-//   )
-// }
-
-// const DrawOutlineButton = ({ children, ...rest }) => {
-//   return (
-//     <button
-//       {...rest}
-//       className="group relative px-4 py-2 font-medium text-slate-100 transition-colors duration-[400ms] hover:text-indigo-300"
-//     >
-//       <span>{children}</span>
-
-//       {/* TOP */}
-//       <span className="absolute left-0 top-0 h-[2px] w-0 bg-indigo-300 transition-all duration-100 group-hover:w-full" />
-
-//       {/* RIGHT */}
-//       <span className="absolute right-0 top-0 h-0 w-[2px] bg-indigo-300 transition-all delay-100 duration-100 group-hover:h-full" />
-
-//       {/* BOTTOM */}
-//       <span className="absolute bottom-0 right-0 h-[2px] w-0 bg-indigo-300 transition-all delay-200 duration-100 group-hover:w-full" />
-
-//       {/* LEFT */}
-//       <span className="absolute bottom-0 left-0 h-0 w-[2px] bg-indigo-300 transition-all delay-300 duration-100 group-hover:h-full" />
-//     </button>
-//   )
-// }
-
-// export default Example
-
 import React, { ButtonHTMLAttributes, ReactNode } from 'react'
 import clsx from 'clsx'
 
@@ -43,6 +8,8 @@ interface OutlineBtnProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   hoverColor?: string
   borderColor?: string
   padding?: string
+  className?: string
+  selected?: boolean
 }
 
 const OutlineBtn: React.FC<OutlineBtnProps> = ({
@@ -52,7 +19,8 @@ const OutlineBtn: React.FC<OutlineBtnProps> = ({
   hoverColor = '',
   borderColor = 'bg-logoblue-30',
   padding = 'px-2 py-1',
-
+  className = '',
+  selected = false,
   ...rest
 }) => {
   return (
@@ -62,7 +30,8 @@ const OutlineBtn: React.FC<OutlineBtnProps> = ({
         'group relative transition-all duration-300',
         textColor,
         hoverColor,
-        padding
+        padding,
+        className
       )}
     >
       <span className={clsx(textSize, 'whitespace-nowrap cursor-pointer')}>
@@ -72,7 +41,8 @@ const OutlineBtn: React.FC<OutlineBtnProps> = ({
       {/* TOP */}
       <span
         className={clsx(
-          'absolute left-0 top-0 h-[2px] w-0 transition-all duration-100 group-hover:w-full',
+          'absolute left-0 top-0 h-[2px] transition-all duration-100',
+          selected ? 'w-full' : 'w-0 group-hover:w-full',
           borderColor
         )}
       />
@@ -80,7 +50,8 @@ const OutlineBtn: React.FC<OutlineBtnProps> = ({
       {/* RIGHT */}
       <span
         className={clsx(
-          'absolute right-0 top-0 h-0 w-[2px] transition-all delay-100 duration-100 group-hover:h-full',
+          'absolute right-0 top-0 w-[2px] transition-all delay-100 duration-100',
+          selected ? 'h-full' : 'h-0 group-hover:h-full',
           borderColor
         )}
       />
@@ -88,7 +59,8 @@ const OutlineBtn: React.FC<OutlineBtnProps> = ({
       {/* BOTTOM */}
       <span
         className={clsx(
-          'absolute bottom-0 right-0 h-[2px] w-0 transition-all delay-200 duration-100 group-hover:w-full',
+          'absolute bottom-0 right-0 h-[2px] transition-all delay-200 duration-100',
+          selected ? 'w-full' : 'w-0 group-hover:w-full',
           borderColor
         )}
       />
@@ -96,7 +68,8 @@ const OutlineBtn: React.FC<OutlineBtnProps> = ({
       {/* LEFT */}
       <span
         className={clsx(
-          'absolute bottom-0 left-0 h-0 w-[2px] transition-all delay-300 duration-100 group-hover:h-full',
+          'absolute bottom-0 left-0 w-[2px] transition-all delay-300 duration-100',
+          selected ? 'h-full' : 'h-0 group-hover:h-full',
           borderColor
         )}
       />
