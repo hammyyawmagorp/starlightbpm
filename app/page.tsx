@@ -39,7 +39,7 @@ export default function Home() {
             transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
             className="text-2xl font-bold font-inter pb-3 text-gray-50 italic"
           >
-            From windows to waste removal, we've got you covered
+            From windows to waste removal, we&apos;ve got you covered
           </motion.h2>
 
           <motion.p
