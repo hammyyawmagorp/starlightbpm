@@ -53,7 +53,7 @@ export async function POST(request: Request) {
       message,
       priceRange: `$${price} - $${price + 200} + HST`,
     })
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to calculate estimate' },
       { status: 500 }
