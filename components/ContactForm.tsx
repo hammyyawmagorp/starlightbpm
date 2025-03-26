@@ -14,6 +14,7 @@ export default function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false) // New state to track submission
   const [isSubmitting, setIsSubmitting] = useState(false) // Track submitting state
   const [showPostalError, setShowPostalError] = useState(false) // Add this new state
+  const [showPrivacyText, setShowPrivacyText] = useState(true) // New state for privacy text
 
   const isEmailValid = email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
   const isPhoneValid = phone.replace(/\D/g, '').length >= 10
@@ -48,6 +49,7 @@ export default function ContactForm() {
 
     // Set the form to submitting state
     setIsSubmitting(true)
+    setShowPrivacyText(false) // Hide privacy text when submitting
 
     try {
       const response = await fetch('/api/submitForm', {
@@ -75,9 +77,11 @@ export default function ContactForm() {
         }, 1500)
       } else {
         console.log('Error submitting form:', data.message)
+        setShowPrivacyText(true) // Show privacy text again if submission fails
       }
     } catch (error) {
       console.error('Error submitting form:', error)
+      setShowPrivacyText(true) // Show privacy text again if submission fails
     }
   }
 
@@ -282,7 +286,7 @@ export default function ContactForm() {
             <button className="px-6 py-2 bg-logoblue-30 text-yellow-logo w-fit transition-all shadow-[3px_3px_0px_steelblue] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-50 hover:text-black font-semibold uppercase">
               {isSubmitting ? (
                 <div
-                  className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_s_linear_infinite]"
+                  className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent alsign-[-0.125em] motion-reduce:animate-[spin_s_linear_infinite]"
                   role="status"
                 >
                   <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
@@ -294,6 +298,14 @@ export default function ContactForm() {
               )}
             </button>
           </div>
+          {showPrivacyText && !isSubmitted && (
+            <div className="text-center mb-2 mt-5 pt-5 font-inter text-xs text-logobrown-10">
+              For more information on how your data is handled, visit our{' '}
+              <a href="/privacy" className="underline text-red-800 ">
+                privacy policy.
+              </a>
+            </div>
+          )}
         </form>
       )}
     </div>

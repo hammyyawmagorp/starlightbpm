@@ -47,7 +47,11 @@ export default function ServicesPage() {
   }, [])
 
   if (loading) {
-    return <div className="container mx-auto p-4">Loading services...</div>
+    return (
+      <div className="container mx-auto p-4 text-center">
+        Loading services...
+      </div>
+    )
   }
 
   if (error) {

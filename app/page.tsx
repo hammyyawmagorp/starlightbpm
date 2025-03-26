@@ -125,8 +125,8 @@ export default function Home() {
             </div>
           </div>
 
-          <motion.div className="w-full lg:w-1/2 flex flexCenter mt-10 lg:mt-0 p-5 m-5">
-            <div className="p-3 bg-site-bg opacity-90 flex-col shadow-lg">
+          <motion.div className="w-full lg:w-1/2 flex flexCenter mt-10 lg:mt-0 p-5 m-5 ">
+            <div className="p-10 bg-site-bg opacity-90 flex-col shadow-lg mx-10">
               <motion.h2 className="font-bold text-logoblue-30 flexCenter mb-5 mt-5 text-2xl">
                 Looking for Window Cleaning?
               </motion.h2>
@@ -162,10 +162,10 @@ export default function Home() {
                   </div>
                 </Link>
               </motion.div>
-              <motion.h2 className="font-bold text-logoblue-30 flexCenter mb-5 mt-5 text-2xl">
+              <motion.h2 className="font-bold text-logoblue-30 flexCenter mb-5 mt-10 pt-10 text-2xl">
                 Need a quote for something else?
               </motion.h2>
-              <motion.h3 className="font-bold text-logoblue-30 flexCenter mb-2 text-xl">
+              <motion.h3 className="font-bold text-logoblue-30 flexCenter mb-2 pb-2 text-xl">
                 Get in touch:
               </motion.h3>
               <motion.div className="mb-5">
