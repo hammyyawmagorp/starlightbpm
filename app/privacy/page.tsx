@@ -4,8 +4,12 @@ const privacy = () => {
       <div className="flex flex-col w-full">
         <div className="flex flex-col items-start justify-start w-full ">
           <h1 className="font-bold text-4xl mt-5 pt-5 ">Privacy Policy</h1>
-          <div className="text-lg font-medium mt-2 mb-1  ">
-            Effective Date: <span className="font-light"> March 1, 2025</span>
+          <div className="text-lg font-medium mt-2 mb-1">
+            Effective Date:{' '}
+            <span className="font-light">
+              {' '}
+              January 1, {new Date().getFullYear()}
+            </span>
           </div>
           <div className="text-lg font-normal text-logobrown-10">
             Starlight Building Maintenance Incorporated <br></br>Brampton, ON,
