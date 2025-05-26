@@ -1,6 +1,7 @@
 'use client'
 import ContactForm from '@/components/ContactForm'
 import { motion } from 'framer-motion'
+import { Suspense } from 'react'
 
 export default function Contact() {
   return (
@@ -12,7 +13,9 @@ export default function Contact() {
     >
       <div className="p-3 bg-site-bg opacity-90 flex-col shadow-lg">
         <div className="mt-2 pt-2 mb-5 pb-5">
-          <ContactForm />
+          <Suspense fallback={<div>Loading...</div>}>
+            <ContactForm />
+          </Suspense>
         </div>
       </div>
     </motion.div>
