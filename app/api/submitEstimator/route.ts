@@ -74,8 +74,11 @@ export async function POST(request: Request) {
         },
         { status: 200 }
       )
-    } catch (dbError) {
-      console.log('Database error:', dbError?.message || 'Unknown error')
+    } catch (dbError: unknown) {
+      console.log(
+        'Database error:',
+        (dbError as Error)?.message || 'Unknown error'
+      )
 
       if (dbError instanceof PrismaClientKnownRequestError) {
         return NextResponse.json(
@@ -108,8 +111,11 @@ export async function POST(request: Request) {
         { status: 500 }
       )
     }
-  } catch (error) {
-    console.log('Error in submitEstimator:', error?.message || 'Unknown error')
+  } catch (error: unknown) {
+    console.log(
+      'Error in submitEstimator:',
+      (error as Error)?.message || 'Unknown error'
+    )
 
     return NextResponse.json(
       {
