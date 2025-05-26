@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
+import {
+  PrismaClientKnownRequestError,
+  PrismaClientValidationError,
+} from '@prisma/client/runtime/library'
 import { generateConfirmationNumber } from '@/lib/utils'
 
 export async function POST(request: Request) {
@@ -74,7 +77,7 @@ export async function POST(request: Request) {
     } catch (dbError) {
       console.log('Database error:', dbError?.message || 'Unknown error')
 
-      if (dbError instanceof Prisma.PrismaClientKnownRequestError) {
+      if (dbError instanceof PrismaClientKnownRequestError) {
         return NextResponse.json(
           {
             success: false,
@@ -85,7 +88,7 @@ export async function POST(request: Request) {
         )
       }
 
-      if (dbError instanceof Prisma.PrismaClientValidationError) {
+      if (dbError instanceof PrismaClientValidationError) {
         return NextResponse.json(
           {
             success: false,
