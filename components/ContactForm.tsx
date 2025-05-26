@@ -34,7 +34,6 @@ export default function ContactForm({
   const [addressTouched, setAddressTouched] = useState(false)
   const [city, setCity] = useState('')
   const [cityTouched, setCityTouched] = useState(false)
-  const [confNumber, setConfNumber] = useState<string>('')
 
   const searchParams = useSearchParams()
   const urlEstimate = searchParams.get('estimate')
@@ -100,7 +99,6 @@ export default function ContactForm({
         setTimeout(() => {
           setIsSubmitting(false)
           setIsSubmitted(true)
-          setConfNumber(data.confNumber)
 
           setName('')
           setEmail('')
