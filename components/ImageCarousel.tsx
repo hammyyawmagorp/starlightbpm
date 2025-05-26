@@ -22,6 +22,7 @@ const captions = [
   'Office Cleaning',
   'Dead Animal Removal',
 ]
+
 const ImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [images, setImages] = useState(baseImages)
@@ -59,7 +60,7 @@ const ImageCarousel = () => {
 
     const interval = setInterval(nextSlide, 5000)
     return () => clearInterval(interval)
-  }, [nextImage, isTransitioning]) // Add nextImage as a dependency here
+  }, [nextImage, isTransitioning])
 
   return (
     <div className="relative w-full max-w-[600px] mx-auto">
@@ -71,8 +72,8 @@ const ImageCarousel = () => {
             alt={`Slide ${index + 1}`}
             width={600}
             height={400}
-            priority={index === currentIndex} // Prioritize current image
-            className={`absolute top-0 left-0 object-cover w-full h-full rounded-lg transition-opacity duration-500 ${
+            priority={index === currentIndex}
+            className={`absolute top-0 left-0 w-full h-full object-cover rounded-lg transition-opacity duration-500 ${
               index === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}
           />

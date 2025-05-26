@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from 'tailwindcss'
+
+const config: Config = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -7,7 +9,30 @@ module.exports = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        drawLine: {
+          '0%': { clipPath: 'inset(0 0 98% 0)' },
+          '25%': { clipPath: 'inset(0 0 0 0)' },
+          '50%': { clipPath: 'inset(0 0 0 0)' },
+          '75%': { clipPath: 'inset(98% 0 0 0)' },
+          '100%': { clipPath: 'inset(0 0 98% 0)' },
+        },
+        shadowPulse: {
+          '0%': { boxShadow: '0 0 0 0 rgba(255, 215, 0, 0.9)' },
+          '50%': { boxShadow: '0 0 30px 15px rgba(255, 215, 0, 0.7)' },
+          '100%': { boxShadow: '0 0 0 0 rgba(255, 215, 0, 0.9)' },
+        },
+      },
       colors: {
+        'logoblue-10': '#1a365d',
+        'logoblue-20': '#2a4a7d',
+        'logoblue-30': '#3a5e9d',
+        'logoblue-40': '#4a72bd',
+        'logoblue-50': '#5a86dd',
+        'logoblue-light': '#e6edf7',
+        'logobrown-10': '#8B4513',
+        'logobrown-20': '#A0522D',
+        'yellow-logo': '#FFD700',
         logoblue: {
           10: '#0FB3D1',
           20: '#e5feff',
@@ -64,3 +89,4 @@ module.exports = {
   },
   plugins: [],
 }
+export default config

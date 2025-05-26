@@ -17,3 +17,8 @@ LEFT JOIN information_schema.table_constraints tc
 WHERE c.table_schema = 'public'
 AND c.table_name IN ('faqs', 'services', 'customer')
 ORDER BY table_name, column_name;
+
+SELECT column_name, data_type, is_nullable
+FROM information_schema.columns
+WHERE table_name = 'customer'
+ORDER BY ordinal_position;

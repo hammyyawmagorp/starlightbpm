@@ -46,9 +46,10 @@ const Navbar = () => {
         <Link href="/">
           <Image
             src="/sbm-logo-1.svg"
-            alt="logo"
+            alt="Starlight BPM Logo"
             width={300}
-            height={300}
+            height={100}
+            priority
             className="pr-2"
           />
         </Link>

@@ -1,87 +1,90 @@
 'use client'
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
-interface faqs {
-  id: number
-  title: string
-  content: string
+interface ServiceOption {
+  id: string
+  label: string
 }
 
-export default function Blog() {
-  const [faqs, setFaqs] = useState<faqs[]>([])
-  const [openIndex, setOpenIndex] = useState<number | null>(null)
+const services: ServiceOption[] = [
+  { id: 'litter', label: 'Litter Pickup' },
+  { id: 'windows', label: 'Window Cleaning' },
+  { id: 'gutters', label: 'Gutter Cleaning' },
+  { id: 'solar', label: 'Solar Panel Cleaning' },
+]
 
-  const toggleAccordion = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index)
+export default function FAQs() {
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedService, setSelectedService] = useState<string>('')
+
+  const handleSelect = (service: ServiceOption) => {
+    setSelectedService(service.label)
+    setIsOpen(false)
   }
 
-  useEffect(() => {
-    const fetchFAQs = async () => {
-      const response = await fetch('/api/faqs')
-      const data = await response.json()
-      const sortedData = data.sort((a: faqs, b: faqs) => a.id - b.id)
-      const isValidSequence = sortedData.every(
-        (faq: faqs, index: number) => faq.id === index + 1
-      )
-      if (!isValidSequence) {
-        console.warn('FAQ IDs are not sequential starting from 1')
-      }
-      setFaqs(sortedData)
-    }
-    fetchFAQs()
-  }, [])
-
   return (
-    <motion.div
-      className="flex flex-col items-center"
-      initial={{ y: 100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-    >
-      <motion.h1
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="text-3xl font-bold mb-6 pb-10 mt-10 pt-10 text-center text-logoblue-30"
-      >
-        Frequently Asked Questions
-      </motion.h1>
+    <div className="flex flex-col items-center pt-4 mt-4">
       <motion.div
-        className="mt-4 w-full max-w-2xl p-3 bg-site-bg opacity-90 flex-col shadow-lg"
+        className="flex mt-4 w-full max-w-2xl p-3 bg-site-bg opacity-90 flex-col shadow-lg text-center"
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
       >
-        {faqs.map((faq, index) => (
-          <motion.div
-            key={faq.id}
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-            className="mb-6"
-          >
-            <h2
-              className="flex justify-between items-center font-bold text-xl cursor-pointer p-2 border-b text-center font-inter text-logoblue-30"
-              onClick={() => toggleAccordion(index)}
+        <h1 className="text-3xl font-bold text-logoblue-30 text-center mb-8">
+          Frequently Asked Questions
+        </h1>
+        <p className="pb-5 mb-5">
+          Let&apos;s face it garbage/dirt is everywhere and unfortunately it
+          seems to keep growing and growing. How can we help?
+        </p>
+
+        <div className="flex items-center justify-center gap-2 mb-8">
+          <span className="text-lg font-semibold text-logoblue-30">
+            What are the benefits of...
+          </span>
+          <div className="relative w-64">
+            <button
+              type="button"
+              onClick={() => setIsOpen(!isOpen)}
+              className="w-full px-4 py-2 text-left bg-transparent text-logobrown-10 hover:underline focus:outline-none font-semibold"
             >
-              <span className="flex-1 text-center">{faq.title}</span>
-              <span
-                className={`transform transition-transform text-logobrown-10 ${
-                  openIndex === index ? 'rotate-180' : ''
-                }`}
-              >
-                ▼
-              </span>
-            </h2>
-            {openIndex === index && (
-              <p className="p-2 mt-3 font-normal font-inter text-lg text-logobrown-10 leading-relaxed">
-                {faq.content}
-              </p>
+              {selectedService || 'Select a Service'}
+            </button>
+
+            {isOpen && (
+              <div className="absolute z-10 w-full mt-1 bg-logoblue-light shadow-lg rounded-sm">
+                {services.map((service) => (
+                  <button
+                    key={service.id}
+                    type="button"
+                    onClick={() => handleSelect(service)}
+                    className="w-full px-4 py-2 text-left text-logoblue-30 hover:text-logobrown-10 focus:outline-none font-semibold hover:bg-logobrown-20"
+                  >
+                    {service.label}
+                  </button>
+                ))}
+              </div>
             )}
+          </div>
+        </div>
+
+        {selectedService && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mt-4 p-4 bg-white rounded-sm shadow-md"
+          >
+            <h2 className="text-xl font-semibold text-logoblue-30 mb-4">
+              {selectedService} FAQs
+            </h2>
+            <p className="text-gray-600">
+              Select a service to view related frequently asked questions.
+            </p>
           </motion.div>
-        ))}{' '}
+        )}
       </motion.div>
-    </motion.div>
+    </div>
   )
 }

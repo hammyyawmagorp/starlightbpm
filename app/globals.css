@@ -3,10 +3,33 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  button,
+  button[type='button'],
+  button[type='submit'],
+  .btn_white,
+  .btn_blue,
+  .btn_white_text,
+  .btn_green,
+  .btn_dark_blue,
+  .btn_dark_gray_outline {
+    cursor: pointer !important;
+  }
+}
+
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   background: url('/site-bg.png') no-repeat center center fixed;
   background-size: cover;
+  font-family: Ubuntu, Bebas Neue, Inter;
 }
+
 .site-bg {
   background: linear-gradient(
       to bottom,
@@ -17,15 +40,6 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-}
-/* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-} */
-
-body {
-  font-family: Ubuntu, Bebas Neue, Inter;
 }
 
 @layer utilities {

@@ -7,20 +7,57 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model customer {
-  id          Int     @id @default(autoincrement())
-  name        String? @db.VarChar(255)
-  email       String? @db.VarChar(255)
-  phone       String? @db.VarChar(255)
-  postal_code String? @db.VarChar(255)
+model EstimatorSubmission {
+  id              Int      @id @default(autoincrement())
+  name            String   @db.VarChar(255)
+  email           String   @db.VarChar(255)
+  phone           String   @db.VarChar(255)
+  address         String?  @db.VarChar(255)
+  city            String?  @db.VarChar(255)
+  postal_code     String?  @db.VarChar(255)
+  message         String?
+  estimate_details String?  @db.Text
+  conf_number     String   @db.VarChar(10) @unique
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  @@map("estimator_submissions")
+}
+
+model Contact {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  email       String   @db.VarChar(255)
+  phone       String   @db.VarChar(255)
+  address     String?  @db.VarChar(255)
+  city        String?  @db.VarChar(255)
+  postal_code String?  @db.VarChar(255)
   message     String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
+model customer {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  email       String   @db.VarChar(255)
+  phone       String   @db.VarChar(255)
+  address     String?  @db.VarChar(255)
+  city        String?  @db.VarChar(255)
+  postal_code String?  @db.VarChar(255)
+  message     String?
+  estimate    String?  @db.VarChar(255)
+  service     String?  @db.VarChar(255)
+  windows     String?  @db.VarChar(255)
+  type        String?  @db.VarChar(255)
+  stories     String?  @db.VarChar(255)
+  conf_number String   @db.VarChar(10) @unique
 }
 
 model services {
   id          Int     @id @default(autoincrement())
   title       String  @db.VarChar(255)
   description String
-  btn         String? @db.VarChar(255)
 }
 
 model faqs {

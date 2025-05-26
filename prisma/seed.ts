@@ -3,34 +3,40 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 async function main() {
-  // Delete existing records
+  // Clear existing services
   await prisma.services.deleteMany()
 
-  // Create sample services
+  // Insert new services
   const services = [
     {
-      title: 'Regular Cleaning',
+      title: 'Window Cleaning',
       description:
-        'Thorough cleaning of your home including dusting, vacuuming, mopping, and bathroom sanitization.',
-      price: '$120-180',
+        'Professional window cleaning services for residential and commercial properties. We use eco-friendly products and ensure streak-free results.',
     },
     {
-      title: 'Deep Cleaning',
+      title: 'Gutter Cleaning',
       description:
-        'Intensive cleaning service that covers hard-to-reach areas and includes detailed cleaning of appliances and fixtures.',
-      price: '$200-300',
+        'Keep your gutters clean and functional with our thorough gutter cleaning service. We remove debris and ensure proper water flow.',
     },
     {
-      title: 'Move In/Out Cleaning',
+      title: 'Pressure Washing',
       description:
-        'Complete cleaning service for moving in or out of a property, ensuring every corner is spotless.',
-      price: '$250-350',
+        'Restore the beauty of your property with our pressure washing service. We clean driveways, sidewalks, and exterior surfaces.',
     },
     {
-      title: 'Office Cleaning',
+      title: 'Waste Removal',
       description:
-        'Professional cleaning service for office spaces, focusing on maintaining a clean and healthy work environment.',
-      price: 'Custom Quote',
+        'Efficient and responsible waste removal services. We handle all types of waste and ensure proper disposal.',
+    },
+    {
+      title: 'Commercial Services',
+      description:
+        'Comprehensive cleaning solutions for businesses. We offer customized packages to meet your specific needs.',
+    },
+    {
+      title: 'Specialized Cleaning',
+      description:
+        'Specialized cleaning services for unique requirements. Contact us for custom solutions tailored to your needs.',
     },
   ]
 
@@ -40,7 +46,7 @@ async function main() {
     })
   }
 
-  console.log('Sample services have been created')
+  console.log('Services seeded successfully')
 }
 
 main()

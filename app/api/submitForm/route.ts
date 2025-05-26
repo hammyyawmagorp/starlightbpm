@@ -9,45 +9,70 @@ export async function POST(request: Request) {
     const formData = await request.json()
 
     // Add logging to debug the incoming data
-    console.log('Received form data:', formData)
+    console.log('Received form data:', JSON.stringify(formData, null, 2))
 
     // Validate the required fields
-    if (
-      !formData.name ||
-      !formData.email ||
-      !formData.phone ||
-      !formData.postalCode
-    ) {
+    if (!formData.name || !formData.email || !formData.phone) {
+      console.log('Missing required fields:', {
+        name: !formData.name,
+        email: !formData.email,
+        phone: !formData.phone,
+      })
       return NextResponse.json(
         { message: 'Missing required fields' },
         { status: 400 }
       )
     }
 
-    const newCustomer = await prisma.customer.create({
-      data: {
+    try {
+      const contactData = {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        postal_code: formData.postalCode,
-        message: formData.message,
-      },
-    })
+        address: formData.address || null,
+        city: formData.city || null,
+        postal_code: formData.postalCode || null,
+        message: formData.message || null,
+      }
 
-    // Add logging for successful creation
-    console.log('Customer created successfully:', newCustomer)
+      console.log(
+        'Attempting to create contact with data:',
+        JSON.stringify(contactData, null, 2)
+      )
 
-    return NextResponse.json(
-      {
-        success: true,
-        message: 'Form submitted successfully!',
-        customer: newCustomer,
-      },
-      { status: 200 }
-    )
+      const newContact = await prisma.contact.create({
+        data: contactData,
+      })
+
+      // Add logging for successful creation
+      console.log(
+        'Contact created successfully:',
+        JSON.stringify(newContact, null, 2)
+      )
+
+      return NextResponse.json(
+        {
+          success: true,
+          message: 'Form submitted successfully!',
+          contact: newContact,
+        },
+        { status: 200 }
+      )
+    } catch (dbError) {
+      console.error('Database error details:', {
+        error: dbError,
+        message: dbError instanceof Error ? dbError.message : 'Unknown error',
+        stack: dbError instanceof Error ? dbError.stack : undefined,
+      })
+      throw dbError // Re-throw to be caught by outer catch
+    }
   } catch (error) {
     // Detailed error logging
-    console.error('Error details:', error)
+    console.error('Error details:', {
+      error,
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+    })
 
     // Handle specific Prisma errors
     if (error instanceof Prisma.PrismaClientKnownRequestError) {

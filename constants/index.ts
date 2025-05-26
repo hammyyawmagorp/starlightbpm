@@ -2,11 +2,9 @@
 export const NAV_LINKS = [
   { href: '/', key: 'home', label: 'Home' },
   { href: '/services', key: 'services', label: 'Services' },
-  // { href: '/pricing', key: 'pricing', label: 'Pricing' },
-  // { href: '/about-us', key: 'about_us', label: 'About Us' },
   { href: '/contact', key: 'contact', label: 'Contact Us' },
-  { href: '/FAQs', key: 'faqs', label: 'FAQs' },
   { href: '/estimator', key: 'estimator', label: 'Estimator' },
+  { href: '/FAQs', key: 'faqs', label: 'FAQs' },
 ]
 
 // FOOTER SECTION

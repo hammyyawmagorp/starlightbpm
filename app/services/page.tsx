@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { TiltCard } from '@/components/ui/TiltCard'
+import { ServiceCard } from '@/components/ui/ServiceCard'
+import { motion } from 'framer-motion'
 
 interface Service {
   id: number
   title: string
   description: string
-  btn: string
 }
 
 export default function ServicesPage() {
@@ -63,18 +63,37 @@ export default function ServicesPage() {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 pb-10 mt-6 pt-6 text-center">
+    <div className="max-container padding-container py-16">
+      <motion.h1
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-3xl font-bold text-logoblue-30 text-center mb-8"
+      >
         Our Services
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-        {services.map((service) => (
-          <TiltCard
+      </motion.h1>
+      <motion.p
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="text-xl text-gray-50 text-center mb-12 max-w-2xl mx-auto"
+      >
+        From windows to waste removal, we&apos;ve got you covered with our
+        comprehensive range of services
+      </motion.p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+        {services.map((service, index) => (
+          <motion.div
             key={service.id}
-            title={service.title}
-            description={service.description}
-            btn={service.btn}
-          />
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+          >
+            <ServiceCard
+              title={service.title}
+              description={service.description}
+            />
+          </motion.div>
         ))}
       </div>
     </div>

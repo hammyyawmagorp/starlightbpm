@@ -11,7 +11,7 @@ export default function Contact() {
       transition={{ duration: 0.8, ease: 'easeOut' }}
     >
       <div className="p-3 bg-site-bg opacity-90 flex-col shadow-lg">
-        <div className="mt-10 pt-10 mb-5 pb-5">
+        <div className="mt-2 pt-2 mb-5 pb-5">
           <ContactForm />
         </div>
       </div>

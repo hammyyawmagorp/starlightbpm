@@ -8,7 +8,10 @@ export const metadata: Metadata = {
   description:
     'Family-owned Building Maintenance company based in Brampton, Ontario',
   icons: {
-    icon: '/icon.ico',
+    icon: [
+      { url: '/sbmicon.png', type: 'image/png' },
+      { url: '/icon.ico', type: 'image/x-icon' },
+    ],
   },
 }
 
