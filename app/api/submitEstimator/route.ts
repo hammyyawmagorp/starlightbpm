@@ -56,7 +56,7 @@ export async function POST(request: Request) {
     console.log('Creating submission with data:', submissionData)
 
     try {
-      const newSubmission = await prisma.EstimatorSubmission.create({
+      const newSubmission = await prisma.estimatorSubmission.create({
         data: submissionData,
       })
 
