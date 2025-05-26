@@ -6,6 +6,24 @@ import {
 } from '@prisma/client/runtime/library'
 import { generateConfirmationNumber } from '@/lib/utils'
 
+type ErrorWithMessage = {
+  message: string
+}
+
+function isErrorWithMessage(error: unknown): error is ErrorWithMessage {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error &&
+    typeof (error as Record<string, unknown>).message === 'string'
+  )
+}
+
+function getErrorMessage(error: unknown): string {
+  if (isErrorWithMessage(error)) return error.message
+  return 'Unknown error'
+}
+
 export async function POST(request: Request) {
   try {
     const formData = await request.json()
@@ -75,10 +93,8 @@ export async function POST(request: Request) {
         { status: 200 }
       )
     } catch (dbError: unknown) {
-      console.log(
-        'Database error:',
-        (dbError as Error)?.message || 'Unknown error'
-      )
+      const errorMessage = getErrorMessage(dbError)
+      console.log('Database error:', errorMessage)
 
       if (dbError instanceof PrismaClientKnownRequestError) {
         return NextResponse.json(
@@ -112,16 +128,14 @@ export async function POST(request: Request) {
       )
     }
   } catch (error: unknown) {
-    console.log(
-      'Error in submitEstimator:',
-      (error as Error)?.message || 'Unknown error'
-    )
+    const errorMessage = getErrorMessage(error)
+    console.log('Error in submitEstimator:', errorMessage)
 
     return NextResponse.json(
       {
         success: false,
         message: 'Error submitting form',
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: errorMessage,
       },
       { status: 500 }
     )
