@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { motion } from 'framer-motion'
 
 interface ContactFormProps {
   estimate?: string
@@ -34,6 +35,8 @@ export default function ContactForm({
   const [addressTouched, setAddressTouched] = useState(false)
   const [city, setCity] = useState('')
   const [cityTouched, setCityTouched] = useState(false)
+  const [isMessageFocused, setIsMessageFocused] = useState(false)
+  const [formSubmitted, setFormSubmitted] = useState(false)
 
   const searchParams = useSearchParams()
   const urlEstimate = searchParams.get('estimate')
@@ -42,7 +45,6 @@ export default function ContactForm({
   const urlType = searchParams.get('type')
   const urlStories = searchParams.get('stories')
 
-  // Use props if available, otherwise use URL params
   const estimate = propEstimate || urlEstimate
   const service = propService || urlService
   const windows = propWindows || urlWindows
@@ -60,6 +62,7 @@ export default function ContactForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setFormSubmitted(true)
 
     if (!isEmailValid || !isPhoneValid || !isNameValid) {
       console.log('Error! Please fill in all required fields.')
@@ -122,42 +125,67 @@ export default function ContactForm({
   const handlePostalCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setPostalCode(value)
-    if (value) {
+    if (postalCodeTouched) {
       setShowPostalError(!value.match(/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/))
-    } else {
-      setShowPostalError(false)
     }
   }
+
+  const showNameError = formSubmitted || (nameTouched && name.length > 0)
+  const showEmailError = formSubmitted || (emailTouched && email.length > 0)
+  const showPhoneError = formSubmitted || (phoneTouched && phone.length > 0)
+  const showAddressError =
+    formSubmitted || (addressTouched && address.length > 0)
+  const showCityError = formSubmitted || (cityTouched && city.length > 0)
+  const showPostalCodeError =
+    formSubmitted || (postalCodeTouched && postalCode.length > 0)
 
   return (
     <div className="w-full p-2 m-1">
       {isSubmitted ? (
-        <div>
-          <p className="text-lg text-center font-bold text-logoblue-30 flexCenter pt-5 mt-3 pb-3 mb-1">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
+          <motion.p
+            className="text-lg text-center font-bold text-logoblue-30 flexCenter pt-5 mt-3 pb-3 mb-1"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
             Thanks! We&apos;ll be in touch soon.
-          </p>
-          {/* <p className="text-lg text-center font-bold text-logoblue-30 flexCenter mb-4">
-            Your confirmation number is:{' '}
-            <span className="text-logobrown-10">{confNumber}</span>
-          </p> */}
-          <p className="text-lg text-center font-bold text-logoblue-30 flexCenter">
+          </motion.p>
+          <motion.p
+            className="text-lg text-center font-bold text-logoblue-30 flexCenter"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
             In the meantime, check out our FAQs:
-          </p>
+          </motion.p>
 
-          <div className="text-center pt-3">
+          <motion.div
+            className="text-center pt-3"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+          >
             <Link href="/FAQs">
               <button className="px-6 py-2 bg-logoblue-30 text-yellow-logo w-fit transition-all shadow-[3px_3px_0px_steelblue] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-50 hover:text-black font-semibold">
                 FAQs
               </button>
             </Link>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       ) : (
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+          className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12"
+        >
           <h1 className="font-bold text-logoblue-30 text-4xl mb-2 text-center">
             Contact Us
           </h1>
-          <p className="text-sm text-gray-600 mb-4 text-center">
+          <p className="text-sm text-gray-600 mb-8 text-center">
             All <span className="text-red-500">*</span> marked fields are
             required
           </p>
@@ -180,114 +208,128 @@ export default function ContactForm({
             </div>
           )}
 
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-lg mb-2 font-semibold">
-              Name/Company: <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              placeholder="Enter Name..."
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              onBlur={() => setNameTouched(true)}
-              className={`w-full max-w-[600px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none 
-                ${
-                  nameTouched && !isNameValid
-                    ? 'border-red-500 text-red-600'
-                    : ''
-                }
-                ${
-                  nameTouched && isNameValid
-                    ? 'border-green-500'
-                    : 'border-logoblue-30'
-                }
-              `}
-              required
-            />
-            {nameTouched && !name.match(/^[a-zA-Z\s]+$/) && (
+          <div className="mb-8">
+            <div className="relative">
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder=" "
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                onBlur={() => setNameTouched(true)}
+                className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
+                  ${
+                    showNameError && !isNameValid
+                      ? 'border-red-500 text-red-600'
+                      : ''
+                  }
+                  ${
+                    showNameError && isNameValid
+                      ? 'border-green-500'
+                      : 'border-logoblue-30'
+                  }
+                  peer
+                `}
+                required
+              />
+              <label
+                htmlFor="name"
+                className="absolute text-base sm:text-lg font-semibold duration-300 transform -translate-y-1/2 scale-[0.85] -top-3 z-10 origin-[0] px-2 peer-focus:text-logoblue-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[-1rem] peer-focus:scale-[0.85] peer-focus:-translate-y-1/2 start-1"
+              >
+                Name/Company <span className="text-red-500 text-sm">*</span>
+              </label>
+            </div>
+            {showNameError && !name.match(/^[a-zA-Z\s]+$/) && (
               <p className="mt-1 text-sm text-red-600">
                 Name cannot contain numbers.
               </p>
             )}
-            {nameTouched && name.length < 2 && (
+            {showNameError && name.length < 2 && (
               <p className="mt-1 text-sm text-red-600">
                 Name must be at least 2 characters long.
               </p>
             )}
           </div>
 
-          <div className="mb-4">
-            <label
-              htmlFor="address"
-              className="block text-lg mb-2 font-semibold"
-            >
-              Street Address:
-            </label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              placeholder="Enter your street address..."
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              onBlur={() => setAddressTouched(true)}
-              className={`w-full max-w-[600px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none 
-                ${
-                  addressTouched && !isAddressValid
-                    ? 'border-red-500 text-red-600'
-                    : ''
-                }
-                ${
-                  addressTouched && isAddressValid
-                    ? 'border-green-500'
-                    : 'border-logoblue-30'
-                }
-              `}
-            />
-            {addressTouched && !isAddressValid && (
+          <div className="mb-8">
+            <div className="relative">
+              <input
+                type="text"
+                id="address"
+                name="address"
+                placeholder=" "
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                onBlur={() => setAddressTouched(true)}
+                className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
+                  ${
+                    showAddressError && !isAddressValid
+                      ? 'border-red-500 text-red-600'
+                      : ''
+                  }
+                  ${
+                    showAddressError && isAddressValid
+                      ? 'border-green-500'
+                      : 'border-logoblue-30'
+                  }
+                  peer
+                `}
+                required
+              />
+              <label
+                htmlFor="address"
+                className="absolute text-base sm:text-lg font-semibold duration-300 transform -translate-y-1/2 scale-[0.85] -top-3 z-10 origin-[0] px-2 peer-focus:text-logoblue-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[-1rem] peer-focus:scale-[0.85] peer-focus:-translate-y-1/2 start-1"
+              >
+                Street Address <span className="text-red-500 text-sm">*</span>
+              </label>
+            </div>
+            {showAddressError && !isAddressValid && (
               <p className="mt-1 text-sm text-red-600">
                 Please enter a valid street address (minimum 5 characters).
               </p>
             )}
           </div>
 
-          <div className="mb-4 flex flex-col sm:flex-row sm:space-x-4">
+          <div className="mb-8 flex flex-col sm:flex-row sm:space-x-8 space-y-8 sm:space-y-0">
             <div className="flex-1">
-              <label
-                htmlFor="city"
-                className="block text-lg mb-2 font-semibold"
-              >
-                City:
-              </label>
-              <input
-                type="text"
-                id="city"
-                name="city"
-                placeholder="Enter your city..."
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                onBlur={() => setCityTouched(true)}
-                className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none
-                  ${
-                    cityTouched && !isCityValid
-                      ? 'border-red-500 text-red-600'
-                      : ''
-                  }
-                  ${
-                    cityTouched && isCityValid
-                      ? 'border-green-500'
-                      : 'border-logoblue-30'
-                  }
-                `}
-              />
-              {cityTouched && !city.match(/^[a-zA-Z\s]+$/) && (
+              <div className="relative">
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  placeholder=" "
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  onBlur={() => setCityTouched(true)}
+                  className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
+                    ${
+                      showCityError && !isCityValid
+                        ? 'border-red-500 text-red-600'
+                        : ''
+                    }
+                    ${
+                      showCityError && isCityValid
+                        ? 'border-green-500'
+                        : 'border-logoblue-30'
+                    }
+                    peer
+                  `}
+                  required
+                />
+                <label
+                  htmlFor="city"
+                  className="absolute text-base sm:text-lg font-semibold duration-300 transform -translate-y-1/2 scale-[0.85] -top-3 z-10 origin-[0] px-2 peer-focus:text-logoblue-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[-1rem] peer-focus:scale-[0.85] peer-focus:-translate-y-1/2 start-1"
+                >
+                  City <span className="text-red-500 text-sm">*</span>
+                </label>
+              </div>
+              {showCityError && !city.match(/^[a-zA-Z\s]+$/) && (
                 <p className="mt-1 text-sm text-red-600">
                   City name cannot contain numbers or special characters.
                 </p>
               )}
-              {cityTouched && city.length < 2 && (
+              {showCityError && city.length < 2 && (
                 <p className="mt-1 text-sm text-red-600">
                   City name must be at least 2 characters long.
                 </p>
@@ -295,30 +337,37 @@ export default function ContactForm({
             </div>
 
             <div className="flex-1">
-              <label
-                htmlFor="postalCode"
-                className="block text-lg mb-2 font-semibold"
-              >
-                Postal Code:
-              </label>
-              <input
-                type="text"
-                id="postalCode"
-                name="postalCode"
-                placeholder="Postal Code..."
-                value={postalCode}
-                onChange={handlePostalCodeChange}
-                onBlur={() => setPostalCodeTouched(true)}
-                className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none
-                  ${showPostalError ? 'border-red-500 text-red-600' : ''}
-                  ${
-                    postalCodeTouched && isPostalCodeValid
-                      ? 'border-green-500'
-                      : 'border-logoblue-30'
-                  }
-                `}
-              />
-              {showPostalError && (
+              <div className="relative">
+                <input
+                  type="text"
+                  id="postalCode"
+                  name="postalCode"
+                  placeholder=" "
+                  value={postalCode}
+                  onChange={handlePostalCodeChange}
+                  onBlur={() => setPostalCodeTouched(true)}
+                  className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
+                    ${
+                      showPostalCodeError && showPostalError
+                        ? 'border-red-500 text-red-600'
+                        : ''
+                    }
+                    ${
+                      showPostalCodeError && isPostalCodeValid
+                        ? 'border-green-500'
+                        : 'border-logoblue-30'
+                    }
+                    peer
+                  `}
+                />
+                <label
+                  htmlFor="postalCode"
+                  className="absolute text-base sm:text-lg font-semibold duration-300 transform -translate-y-1/2 scale-[0.85] -top-3 z-10 origin-[0] px-2 peer-focus:text-logoblue-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[-1rem] peer-focus:scale-[0.85] peer-focus:-translate-y-1/2 start-1"
+                >
+                  Postal Code
+                </label>
+              </div>
+              {showPostalCodeError && showPostalError && (
                 <p className="mt-1 text-sm text-red-600">
                   Please enter a valid postal code (e.g., A1A 1A1)
                 </p>
@@ -326,37 +375,40 @@ export default function ContactForm({
             </div>
           </div>
 
-          <div className="mb-4 flex flex-col sm:flex-row sm:space-x-4">
+          <div className="mb-8 flex flex-col sm:flex-row sm:space-x-8 space-y-8 sm:space-y-0">
             <div className="flex-1">
-              <label
-                htmlFor="email"
-                className="block text-lg mb-2 font-semibold"
-              >
-                Email Address: <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Email..."
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onBlur={() => setEmailTouched(true)}
-                className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none
-                  ${
-                    emailTouched && !isEmailValid
-                      ? 'border-red-500 text-red-600'
-                      : ''
-                  }
-                  ${
-                    emailTouched && isEmailValid
-                      ? 'border-green-500'
-                      : 'border-logoblue-30'
-                  }
-                `}
-                required
-              />
-              {emailTouched && !isEmailValid && (
+              <div className="relative">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder=" "
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onBlur={() => setEmailTouched(true)}
+                  className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
+                    ${
+                      showEmailError && !isEmailValid
+                        ? 'border-red-500 text-red-600'
+                        : ''
+                    }
+                    ${
+                      showEmailError && isEmailValid
+                        ? 'border-green-500'
+                        : 'border-logoblue-30'
+                    }
+                    peer
+                  `}
+                  required
+                />
+                <label
+                  htmlFor="email"
+                  className="absolute text-base sm:text-lg font-semibold duration-300 transform -translate-y-1/2 scale-[0.85] -top-3 z-10 origin-[0] px-2 peer-focus:text-logoblue-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[-1rem] peer-focus:scale-[0.85] peer-focus:-translate-y-1/2 start-1"
+                >
+                  Email Address <span className="text-red-500 text-sm">*</span>
+                </label>
+              </div>
+              {showEmailError && !isEmailValid && (
                 <p className="mt-1 text-sm text-red-600">
                   Please enter a valid email address.
                 </p>
@@ -364,35 +416,38 @@ export default function ContactForm({
             </div>
 
             <div className="flex-1">
-              <label
-                htmlFor="phone"
-                className="block text-lg mb-2 font-semibold"
-              >
-                Phone Number: <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                placeholder="Phone #..."
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                onBlur={() => setPhoneTouched(true)}
-                className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none
-                  ${
-                    phoneTouched && !isPhoneValid
-                      ? 'border-red-500 text-red-600'
-                      : ''
-                  }
-                  ${
-                    phoneTouched && isPhoneValid
-                      ? 'border-green-500'
-                      : 'border-logoblue-30'
-                  }
-                `}
-                required
-              />
-              {phoneTouched && phone.replace(/\D/g, '').length < 10 && (
+              <div className="relative">
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  placeholder=" "
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  onBlur={() => setPhoneTouched(true)}
+                  className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
+                    ${
+                      showPhoneError && !isPhoneValid
+                        ? 'border-red-500 text-red-600'
+                        : ''
+                    }
+                    ${
+                      showPhoneError && isPhoneValid
+                        ? 'border-green-500'
+                        : 'border-logoblue-30'
+                    }
+                    peer
+                  `}
+                  required
+                />
+                <label
+                  htmlFor="phone"
+                  className="absolute text-base sm:text-lg font-semibold duration-300 transform -translate-y-1/2 scale-[0.85] -top-3 z-10 origin-[0] px-2 peer-focus:text-logoblue-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[-1rem] peer-focus:scale-[0.85] peer-focus:-translate-y-1/2 start-1"
+                >
+                  Phone Number <span className="text-red-500 text-sm">*</span>
+                </label>
+              </div>
+              {showPhoneError && phone.replace(/\D/g, '').length < 10 && (
                 <p className="mt-1 text-sm text-red-600">
                   Phone number must be at least 10 digits.
                 </p>
@@ -400,22 +455,47 @@ export default function ContactForm({
             </div>
           </div>
 
-          <div className="mb-4">
-            <label
-              htmlFor="message"
-              className="block text-lg mb-2 font-semibold"
-            >
-              Message:
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              placeholder="Tell us more about the work..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="w-full max-w-[700px] h-40 sm:h-48 p-2 border border-logoblue-30 rounded-sm hover:bg-logobrown-20"
-              required
-            />
+          <div className="mb-8 mt-12">
+            <div className="relative">
+              <textarea
+                id="message"
+                name="message"
+                placeholder=" "
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onFocus={() => setIsMessageFocused(true)}
+                onBlur={() => setIsMessageFocused(false)}
+                className="w-full h-40 sm:h-48 p-2 border border-logoblue-30 rounded-sm hover:bg-logobrown-20 font-inter peer"
+                required
+              />
+              <label
+                htmlFor="message"
+                className={`absolute text-base sm:text-lg font-semibold duration-300 transform scale-[0.85] -top-5 z-10 origin-[0] px-2 peer-focus:text-logoblue-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:top-4 peer-focus:top-[-2rem] peer-focus:scale-[0.85] peer-focus:translate-y-0 start-1 ${
+                  message.length > 0
+                    ? 'top-[-2rem] scale-[0.85] translate-y-0'
+                    : ''
+                }`}
+              >
+                <span
+                  className={`transition-opacity duration-300 ${
+                    isMessageFocused || message.length > 0
+                      ? 'opacity-0'
+                      : 'opacity-100'
+                  }`}
+                >
+                  Anything Else?
+                </span>
+                <span
+                  className={`absolute left-0 transition-opacity duration-300 ${
+                    isMessageFocused || message.length > 0
+                      ? 'opacity-100'
+                      : 'opacity-0'
+                  }`}
+                >
+                  Message
+                </span>
+              </label>
+            </div>
           </div>
 
           <div className="flex items-center justify-center">

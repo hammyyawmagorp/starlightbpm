@@ -46,7 +46,7 @@ export default function Home() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut', delay: 0.6 }}
-            className="text-lg mt-4"
+            className="text-lg mt-4 font-inter"
           >
             Whether you need spotless windows, thorough office cleaning, or
             reliable litter and dead animal removal, our family-owned business
@@ -99,7 +99,7 @@ export default function Home() {
             <motion.h2 className="font-ubuntu font-medium italic flexCenter pb-4 text-2xl">
               Built on Trust—Committed to Excellence
             </motion.h2>
-            <div className="text-2xl">
+            <div className="text-2xl font-inter">
               <motion.p className="mb-5 mt-3">
                 Founded in 2009, our family business has been built on trust,
                 quality, and dedication. My dad started this company with a
@@ -119,8 +119,10 @@ export default function Home() {
                 cleaning is not just a service, it is a family tradition.
               </motion.p>
               <motion.p className="text-logobrown-10 flexCenter">
-                <strong className="pr-2">Areas Serviced:</strong>
-                <em>Brampton, Toronto & Surrounding Greater Toronto Areas</em>
+                <strong className="pr-2 font-ubuntu">Areas Serviced:</strong>
+                <em className="font-inter">
+                  Brampton, Toronto & Surrounding Greater Toronto Areas
+                </em>
               </motion.p>
             </div>
           </div>

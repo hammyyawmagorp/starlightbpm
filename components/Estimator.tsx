@@ -3,6 +3,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 type StoryType = 'one' | 'two'
 type CleaningType = 'full' | 'exterior'
@@ -45,6 +46,8 @@ export default function Estimator() {
   const [cityTouched, setCityTouched] = useState(false)
   const [confNumber, setConfNumber] = useState<string>('')
   const [windowsTouched, setWindowsTouched] = useState(false)
+  const [formSubmitted, setFormSubmitted] = useState(false)
+  const [isMessageFocused, setIsMessageFocused] = useState(false)
 
   // Add useEffect for auto-scroll
   useEffect(() => {
@@ -62,6 +65,18 @@ export default function Estimator() {
     setWindowsTouched(false)
     if (buildingType !== 'residential') {
       setBuildingType(null)
+    }
+    // Scroll to the estimator heading with an offset
+    const estimatorHeading = document.querySelector(
+      'h1.text-3xl.font-bold.text-logoblue-30'
+    )
+    if (estimatorHeading) {
+      const yOffset = -100 // Scroll 100px higher than the heading
+      const y =
+        estimatorHeading.getBoundingClientRect().top +
+        window.pageYOffset +
+        yOffset
+      window.scrollTo({ top: y, behavior: 'smooth' })
     }
   }
 
@@ -103,6 +118,13 @@ export default function Estimator() {
 
       const data = await response.json()
       setEstimate(data)
+
+      setTimeout(() => {
+        const quoteElement = document.querySelector('.text-center.mt-8.mb-12')
+        if (quoteElement) {
+          quoteElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      }, 100)
     } catch {
       setEstimate('Sorry, something went wrong. Please try again.')
     } finally {
@@ -126,6 +148,7 @@ export default function Estimator() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setFormSubmitted(true)
 
     if (!isEmailValid || !isPhoneValid || !isNameValid) {
       console.log('Error! Please fill in all required fields.')
@@ -196,10 +219,8 @@ export default function Estimator() {
   const handlePostalCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setPostalCode(value)
-    if (value) {
+    if (postalCodeTouched) {
       setShowPostalError(!value.match(/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/))
-    } else {
-      setShowPostalError(false)
     }
   }
 
@@ -221,10 +242,10 @@ export default function Estimator() {
             <label className="block text-lg font-semibold mb-2">
               Type of Property:
             </label>
-            <div className="flex gap-4 justify-center">
+            <div className="flex flex-col min-[340px]:flex-row gap-4 justify-center items-center">
               <button
                 onClick={() => setBuildingType('residential')}
-                className={`px-4 py-2 rounded-sm transition-all ${
+                className={`px-4 py-2 rounded-sm transition-all w-fit ${
                   buildingType === 'residential'
                     ? 'bg-logoblue-30'
                     : 'bg-gray-200 text-black hover:bg-gray-300'
@@ -242,7 +263,7 @@ export default function Estimator() {
               </button>
               <button
                 onClick={() => setBuildingType('commercial')}
-                className={`px-4 py-2 rounded-sm transition-all ${
+                className={`px-4 py-2 rounded-sm transition-all w-fit ${
                   buildingType === 'commercial'
                     ? 'bg-logoblue-30'
                     : 'bg-gray-200 text-black hover:bg-gray-300'
@@ -294,7 +315,16 @@ export default function Estimator() {
                       setWindowsTouched(true)
                     }}
                     disabled={isSuccessfulEstimate(estimate)}
-                    className={`w-64 h-2 bg-logobrown-10 outline-2 rounded-lg appearance-none cursor-pointer accent-logoblue-10 ${
+                    style={{
+                      background: `linear-gradient(to right, #8B4513 ${
+                        ((parseInt(numWindows || '0') - 1) / (maxWindows - 1)) *
+                        100
+                      }%, #3a5e9d ${
+                        ((parseInt(numWindows || '0') - 1) / (maxWindows - 1)) *
+                        100
+                      }%)`,
+                    }}
+                    className={`w-64 h-1 outline-2 rounded-lg appearance-none cursor-pointer accent-logoblue-10 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-logobrown-10 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-logobrown-10 [&::-moz-range-thumb]:border-0 mb-4 mt-4 ${
                       isSuccessfulEstimate(estimate)
                         ? 'opacity-50 cursor-not-allowed'
                         : ''
@@ -309,7 +339,7 @@ export default function Estimator() {
                     }}
                     onBlur={() => setWindowsTouched(true)}
                     disabled={isSuccessfulEstimate(estimate)}
-                    className={`w-32 p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none text-center mx-auto
+                    className={`w-16 p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none text-center mx-auto font-inter font-medium [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
                       ${
                         windowsTouched && !isWindowsValid
                           ? 'border-red-500 text-red-600'
@@ -326,7 +356,6 @@ export default function Estimator() {
                           : ''
                       }
                     `}
-                    placeholder="Windows ?"
                     min="1"
                     max={maxWindows}
                     required
@@ -343,11 +372,11 @@ export default function Estimator() {
                 <label className="block text-lg font-semibold mb-2">
                   House Type:
                 </label>
-                <div className="flex gap-4 justify-center">
+                <div className="flex flex-col min-[340px]:flex-row gap-4 justify-center items-center">
                   <button
                     onClick={() => setStoryType('one')}
                     disabled={isSuccessfulEstimate(estimate)}
-                    className={`px-4 py-2 rounded-sm transition-all ${
+                    className={`px-4 py-2 rounded-sm transition-all w-fit ${
                       storyType === 'one'
                         ? 'bg-logoblue-30'
                         : 'bg-gray-200 text-black hover:bg-gray-300'
@@ -368,7 +397,7 @@ export default function Estimator() {
                   <button
                     onClick={() => setStoryType('two')}
                     disabled={isSuccessfulEstimate(estimate)}
-                    className={`px-4 py-2 rounded-sm transition-all ${
+                    className={`px-4 py-2 rounded-sm transition-all w-fit ${
                       storyType === 'two'
                         ? 'bg-logoblue-30'
                         : 'bg-gray-200 text-black hover:bg-gray-300'
@@ -393,11 +422,11 @@ export default function Estimator() {
                 <label className="block text-lg font-semibold mb-2">
                   Cleaning Type:
                 </label>
-                <div className="flex gap-4 justify-center">
+                <div className="flex flex-col min-[340px]:flex-row gap-4 justify-center items-center">
                   <button
                     onClick={() => setCleaningType('full')}
                     disabled={isSuccessfulEstimate(estimate)}
-                    className={`px-4 py-2 rounded-sm transition-all ${
+                    className={`px-4 py-2 rounded-sm transition-all w-fit ${
                       cleaningType === 'full'
                         ? 'bg-logoblue-30'
                         : 'bg-gray-200 text-black hover:bg-gray-300'
@@ -420,7 +449,7 @@ export default function Estimator() {
                   <button
                     onClick={() => setCleaningType('exterior')}
                     disabled={isSuccessfulEstimate(estimate)}
-                    className={`px-4 py-2 rounded-sm transition-all ${
+                    className={`px-4 py-2 rounded-sm transition-all w-fit ${
                       cleaningType === 'exterior'
                         ? 'bg-logoblue-30'
                         : 'bg-gray-200 text-black hover:bg-gray-300'
@@ -502,17 +531,37 @@ export default function Estimator() {
         }`}
       >
         {isSubmitted ? (
-          <div className="text-center">
-            <p className="text-lg text-center font-bold  text-logoblue-30 flexCenter pt-5 mt-3 pb-3 mb-1">
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          >
+            <motion.p
+              className="text-lg text-center font-bold text-logoblue-30 flexCenter pt-5 mt-3 pb-3 mb-1"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
               Thanks! We&apos;ll reach out soon.
-            </p>
-            <p className="text-lg text-center font-bold text-logoblue-30 flexCenter mb-4">
+            </motion.p>
+            <motion.p
+              className="text-lg text-center font-bold text-logoblue-30 flexCenter mb-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+            >
               Your Quote Confirmation number:
-            </p>
-            <p className="text-3xl text-center text-logobrown-10 flexCenter font-mono tracking-widest pb-2">
+            </motion.p>
+            <motion.p
+              className="text-3xl text-center text-logobrown-10 flexCenter font-mono tracking-widest pb-2"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
               {confNumber}
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
         ) : (
           <div className="w-full max-w-2xl mx-auto">
             <div className="flex flex-col items-center mb-6">
@@ -531,8 +580,11 @@ export default function Estimator() {
               required
             </p>
 
-            <form onSubmit={handleSubmit}>
-              <div className="mb-6 p-4 bg-logoblue-light rounded-lg border border-logoblue-30 border-radius-lg text-center">
+            <form
+              onSubmit={handleSubmit}
+              className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12"
+            >
+              <div className="mb-6 p-4 bg-logoblue-light rounded-lg border border-logoblue-30 border-radius-lg text-center pb-4">
                 <h2 className="text-xl font-semibold text-logoblue-30 mb-2">
                   Your Estimate Details:
                 </h2>
@@ -557,245 +609,323 @@ export default function Estimator() {
                 </div>
               </div>
 
-              <div className="mb-4">
-                <label
-                  htmlFor="name"
-                  className="block text-lg mb-2 font-semibold"
-                >
-                  Name/Company: <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Enter Name..."
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  onBlur={() => setNameTouched(true)}
-                  className={`w-full max-w-[600px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none 
-                  ${
-                    nameTouched && !isNameValid
-                      ? 'border-red-500 text-red-600'
-                      : ''
-                  }
-                  ${
-                    nameTouched && isNameValid
-                      ? 'border-green-500'
-                      : 'border-logoblue-30'
-                  }
-                `}
-                  required
-                />
-                {nameTouched && !name.match(/^[a-zA-Z\s]+$/) && (
-                  <p className="mt-1 text-sm text-red-600">
-                    Name cannot contain numbers.
-                  </p>
-                )}
-                {nameTouched && name.length < 2 && (
-                  <p className="mt-1 text-sm text-red-600">
-                    Name must be at least 2 characters long.
-                  </p>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <label
-                  htmlFor="address"
-                  className="block text-lg mb-2 font-semibold"
-                >
-                  Street Address:
-                </label>
-                <input
-                  type="text"
-                  id="address"
-                  name="address"
-                  placeholder="Enter your street address..."
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  onBlur={() => setAddressTouched(true)}
-                  className={`w-full max-w-[600px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none 
-                  ${
-                    addressTouched && !isAddressValid
-                      ? 'border-red-500 text-red-600'
-                      : ''
-                  }
-                  ${
-                    addressTouched && isAddressValid
-                      ? 'border-green-500'
-                      : 'border-logoblue-30'
-                  }
-                `}
-                />
-                {addressTouched && !isAddressValid && (
-                  <p className="mt-1 text-sm text-red-600">
-                    Please enter a valid street address (minimum 5 characters).
-                  </p>
-                )}
-              </div>
-
-              <div className="mb-4 flex flex-col sm:flex-row sm:space-x-4">
-                <div className="flex-1">
-                  <label
-                    htmlFor="city"
-                    className="block text-lg mb-2 font-semibold"
-                  >
-                    City:
-                  </label>
+              <div className="mb-8 pt-5">
+                <div className="relative">
                   <input
                     type="text"
-                    id="city"
-                    name="city"
-                    placeholder="Enter your city..."
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    onBlur={() => setCityTouched(true)}
-                    className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none
+                    id="name"
+                    name="name"
+                    placeholder=" "
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    onBlur={() => setNameTouched(true)}
+                    className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
                     ${
-                      cityTouched && !isCityValid
+                      (formSubmitted || (nameTouched && name.length > 0)) &&
+                      !isNameValid
                         ? 'border-red-500 text-red-600'
                         : ''
                     }
                     ${
-                      cityTouched && isCityValid
+                      (formSubmitted || (nameTouched && name.length > 0)) &&
+                      isNameValid
                         ? 'border-green-500'
                         : 'border-logoblue-30'
                     }
-                  `}
-                  />
-                  {cityTouched && !city.match(/^[a-zA-Z\s]+$/) && (
-                    <p className="mt-1 text-sm text-red-600">
-                      City name cannot contain numbers or special characters.
-                    </p>
-                  )}
-                  {cityTouched && city.length < 2 && (
-                    <p className="mt-1 text-sm text-red-600">
-                      City name must be at least 2 characters long.
-                    </p>
-                  )}
-                </div>
-
-                <div className="flex-1">
-                  <label
-                    htmlFor="postalCode"
-                    className="block text-lg mb-2 font-semibold"
-                  >
-                    Postal Code:
-                  </label>
-                  <input
-                    type="text"
-                    id="postalCode"
-                    name="postalCode"
-                    placeholder="Postal Code..."
-                    value={postalCode}
-                    onChange={handlePostalCodeChange}
-                    onBlur={() => setPostalCodeTouched(true)}
-                    className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none
-                    ${showPostalError ? 'border-red-500 text-red-600' : ''}
-                    ${
-                      postalCodeTouched && isPostalCodeValid
-                        ? 'border-green-500'
-                        : 'border-logoblue-30'
-                    }
-                  `}
-                  />
-                  {showPostalError && (
-                    <p className="mt-1 text-sm text-red-600">
-                      Please enter a valid postal code (e.g., A1A 1A1)
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className="mb-4 flex flex-col sm:flex-row sm:space-x-4">
-                <div className="flex-1">
-                  <label
-                    htmlFor="email"
-                    className="block text-lg mb-2 font-semibold"
-                  >
-                    Email Address: <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Email..."
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    onBlur={() => setEmailTouched(true)}
-                    className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none
-                    ${
-                      emailTouched && !isEmailValid
-                        ? 'border-red-500 text-red-600'
-                        : ''
-                    }
-                    ${
-                      emailTouched && isEmailValid
-                        ? 'border-green-500'
-                        : 'border-logoblue-30'
-                    }
+                    peer
                   `}
                     required
                   />
-                  {emailTouched && !isEmailValid && (
+                  <label
+                    htmlFor="name"
+                    className="absolute text-base sm:text-lg font-medium text-logoblue-30 duration-300 transform -translate-y-1/2 scale-[0.85] -top-3 z-10 origin-[0] px-2 peer-focus:text-logoblue-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[-1rem] peer-focus:scale-[0.85] peer-focus:-translate-y-1/2 start-1"
+                  >
+                    Name/Company <span className="text-red-500 text-sm">*</span>
+                  </label>
+                </div>
+                {(formSubmitted || (nameTouched && name.length > 0)) &&
+                  !name.match(/^[a-zA-Z\s]+$/) && (
                     <p className="mt-1 text-sm text-red-600">
-                      Please enter a valid email address.
+                      Name cannot contain numbers.
                     </p>
                   )}
-                </div>
+                {(formSubmitted || (nameTouched && name.length > 0)) &&
+                  name.length < 2 && (
+                    <p className="mt-1 text-sm text-red-600">
+                      Name must be at least 2 characters long.
+                    </p>
+                  )}
+              </div>
 
-                <div className="flex-1">
-                  <label
-                    htmlFor="phone"
-                    className="block text-lg mb-2 font-semibold"
-                  >
-                    Phone Number: <span className="text-red-500">*</span>
-                  </label>
+              <div className="mb-8">
+                <div className="relative">
                   <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    placeholder="Phone #..."
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    onBlur={() => setPhoneTouched(true)}
-                    className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none
+                    type="text"
+                    id="address"
+                    name="address"
+                    placeholder=" "
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    onBlur={() => setAddressTouched(true)}
+                    className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
                     ${
-                      phoneTouched && !isPhoneValid
+                      (formSubmitted ||
+                        (addressTouched && address.length > 0)) &&
+                      !isAddressValid
                         ? 'border-red-500 text-red-600'
                         : ''
                     }
                     ${
-                      phoneTouched && isPhoneValid
+                      (formSubmitted ||
+                        (addressTouched && address.length > 0)) &&
+                      isAddressValid
                         ? 'border-green-500'
                         : 'border-logoblue-30'
                     }
+                    peer
                   `}
                     required
                   />
-                  {phoneTouched && phone.replace(/\D/g, '').length < 10 && (
+                  <label
+                    htmlFor="address"
+                    className="absolute text-base sm:text-lg font-medium text-logoblue-30 duration-300 transform -translate-y-1/2 scale-[0.85] -top-3 z-10 origin-[0] px-2 peer-focus:text-logoblue-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[-1rem] peer-focus:scale-[0.85] peer-focus:-translate-y-1/2 start-1"
+                  >
+                    Street Address{' '}
+                    <span className="text-red-500 text-sm">*</span>
+                  </label>
+                </div>
+                {(formSubmitted || (addressTouched && address.length > 0)) &&
+                  !isAddressValid && (
                     <p className="mt-1 text-sm text-red-600">
-                      Phone number must be at least 10 digits.
+                      Please enter a valid street address (minimum 5
+                      characters).
                     </p>
                   )}
+              </div>
+
+              <div className="mb-8 flex flex-col sm:flex-row sm:space-x-8 space-y-8 sm:space-y-0">
+                <div className="flex-1">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      placeholder=" "
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      onBlur={() => setCityTouched(true)}
+                      className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
+                      ${
+                        (formSubmitted || (cityTouched && city.length > 0)) &&
+                        !isCityValid
+                          ? 'border-red-500 text-red-600'
+                          : ''
+                      }
+                      ${
+                        (formSubmitted || (cityTouched && city.length > 0)) &&
+                        isCityValid
+                          ? 'border-green-500'
+                          : 'border-logoblue-30'
+                      }
+                      peer
+                    `}
+                      required
+                    />
+                    <label
+                      htmlFor="city"
+                      className="absolute text-base sm:text-lg font-medium text-logoblue-30 duration-300 transform -translate-y-1/2 scale-[0.85] -top-3 z-10 origin-[0] px-2 peer-focus:text-logoblue-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[-1rem] peer-focus:scale-[0.85] peer-focus:-translate-y-1/2 start-1"
+                    >
+                      City <span className="text-red-500 text-sm">*</span>
+                    </label>
+                  </div>
+                  {(formSubmitted || (cityTouched && city.length > 0)) &&
+                    !city.match(/^[a-zA-Z\s]+$/) && (
+                      <p className="mt-1 text-sm text-red-600">
+                        City name cannot contain numbers or special characters.
+                      </p>
+                    )}
+                  {(formSubmitted || (cityTouched && city.length > 0)) &&
+                    city.length < 2 && (
+                      <p className="mt-1 text-sm text-red-600">
+                        City name must be at least 2 characters long.
+                      </p>
+                    )}
+                </div>
+
+                <div className="flex-1">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      id="postalCode"
+                      name="postalCode"
+                      placeholder=" "
+                      value={postalCode}
+                      onChange={handlePostalCodeChange}
+                      onBlur={() => setPostalCodeTouched(true)}
+                      className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
+                      ${
+                        (formSubmitted ||
+                          (postalCodeTouched && postalCode.length > 0)) &&
+                        showPostalError
+                          ? 'border-red-500 text-red-600'
+                          : ''
+                      }
+                      ${
+                        (formSubmitted ||
+                          (postalCodeTouched && postalCode.length > 0)) &&
+                        isPostalCodeValid
+                          ? 'border-green-500'
+                          : 'border-logoblue-30'
+                      }
+                      peer
+                    `}
+                    />
+                    <label
+                      htmlFor="postalCode"
+                      className="absolute text-base sm:text-lg font-medium text-logoblue-30 duration-300 transform -translate-y-1/2 scale-[0.85] -top-3 z-10 origin-[0] px-2 peer-focus:text-logoblue-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[-1rem] peer-focus:scale-[0.85] peer-focus:-translate-y-1/2 start-1"
+                    >
+                      Postal Code
+                    </label>
+                  </div>
+                  {(formSubmitted ||
+                    (postalCodeTouched && postalCode.length > 0)) &&
+                    showPostalError && (
+                      <p className="mt-1 text-sm text-red-600">
+                        Please enter a valid postal code (e.g., A1A 1A1)
+                      </p>
+                    )}
                 </div>
               </div>
 
-              <div className="mb-4">
-                <label
-                  htmlFor="message"
-                  className="block text-lg mb-2 font-semibold"
-                >
-                  Message:
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  placeholder="Tell us more about the work..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="w-full max-w-[700px] h-40 sm:h-48 p-2 border border-logoblue-30 rounded-sm hover:bg-logobrown-20"
-                  required
-                />
+              <div className="mb-8 flex flex-col sm:flex-row sm:space-x-8 space-y-8 sm:space-y-0">
+                <div className="flex-1">
+                  <div className="relative">
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder=" "
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      onBlur={() => setEmailTouched(true)}
+                      className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
+                      ${
+                        (formSubmitted || (emailTouched && email.length > 0)) &&
+                        !isEmailValid
+                          ? 'border-red-500 text-red-600'
+                          : ''
+                      }
+                      ${
+                        (formSubmitted || (emailTouched && email.length > 0)) &&
+                        isEmailValid
+                          ? 'border-green-500'
+                          : 'border-logoblue-30'
+                      }
+                      peer
+                    `}
+                      required
+                    />
+                    <label
+                      htmlFor="email"
+                      className="absolute text-base sm:text-lg font-medium text-logoblue-30 duration-300 transform -translate-y-1/2 scale-[0.85] -top-3 z-10 origin-[0] px-2 peer-focus:text-logoblue-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[-1rem] peer-focus:scale-[0.85] peer-focus:-translate-y-1/2 start-1"
+                    >
+                      Email Address{' '}
+                      <span className="text-red-500 text-sm">*</span>
+                    </label>
+                  </div>
+                  {(formSubmitted || (emailTouched && email.length > 0)) &&
+                    !isEmailValid && (
+                      <p className="mt-1 text-sm text-red-600">
+                        Please enter a valid email address.
+                      </p>
+                    )}
+                </div>
+
+                <div className="flex-1">
+                  <div className="relative">
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      placeholder=" "
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      onBlur={() => setPhoneTouched(true)}
+                      className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
+                      ${
+                        (formSubmitted || (phoneTouched && phone.length > 0)) &&
+                        !isPhoneValid
+                          ? 'border-red-500 text-red-600'
+                          : ''
+                      }
+                      ${
+                        (formSubmitted || (phoneTouched && phone.length > 0)) &&
+                        isPhoneValid
+                          ? 'border-green-500'
+                          : 'border-logoblue-30'
+                      }
+                      peer
+                    `}
+                      required
+                    />
+                    <label
+                      htmlFor="phone"
+                      className="absolute text-base sm:text-lg font-medium text-logoblue-30 duration-300 transform -translate-y-1/2 scale-[0.85] -top-3 z-10 origin-[0] px-2 peer-focus:text-logoblue-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-[-1rem] peer-focus:scale-[0.85] peer-focus:-translate-y-1/2 start-1"
+                    >
+                      Phone Number{' '}
+                      <span className="text-red-500 text-sm">*</span>
+                    </label>
+                  </div>
+                  {(formSubmitted || (phoneTouched && phone.length > 0)) &&
+                    phone.replace(/\D/g, '').length < 10 && (
+                      <p className="mt-1 text-sm text-red-600">
+                        Phone number must be at least 10 digits.
+                      </p>
+                    )}
+                </div>
+              </div>
+
+              <div className="mb-8 mt-12">
+                <div className="relative">
+                  <textarea
+                    id="message"
+                    name="message"
+                    placeholder=" "
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onFocus={() => setIsMessageFocused(true)}
+                    onBlur={() => setIsMessageFocused(false)}
+                    className="w-full max-w-[700px] h-40 sm:h-48 p-2 border border-logoblue-30 rounded-sm hover:bg-logobrown-20 font-inter peer"
+                    required
+                  />
+                  <label
+                    htmlFor="message"
+                    className={`absolute text-base sm:text-lg font-medium text-logoblue-30 duration-300 transform scale-[0.85] -top-5 z-10 origin-[0] px-2 peer-focus:text-logoblue-30 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:top-4 peer-focus:top-[-2rem] peer-focus:scale-[0.85] peer-focus:translate-y-0 start-1 ${
+                      message.length > 0
+                        ? 'top-[-2rem] scale-[0.85] translate-y-0'
+                        : ''
+                    }`}
+                  >
+                    <span
+                      className={`transition-opacity duration-300 ${
+                        isMessageFocused || message.length > 0
+                          ? 'opacity-0'
+                          : 'opacity-100'
+                      }`}
+                    >
+                      Anything Else?
+                    </span>
+                    <span
+                      className={`absolute left-0 transition-opacity duration-300 ${
+                        isMessageFocused || message.length > 0
+                          ? 'opacity-100'
+                          : 'opacity-0'
+                      }`}
+                    >
+                      Message
+                    </span>
+                  </label>
+                </div>
               </div>
 
               <div className="flex items-center justify-center">
