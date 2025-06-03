@@ -1,112 +1,105 @@
 'use client'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
-interface ServiceOption {
-  id: string
-  label: string
-  faqs: FAQ[]
+interface ServiceInfo {
+  id: number
+  title: string
+  main_para: string
+  h1: string
+  para_1: string
+  h2: string
+  para_2: string
+  people_say1: string
+  people_say2: string
+  fact_1: string
+  fact_2: string
 }
 
-interface FAQ {
-  question: string
-  answer: string
+interface TitleRecord {
+  title: string
 }
 
-const services: ServiceOption[] = [
-  {
-    id: 'litter',
-    label: 'Litter Pickup',
-    faqs: [
-      {
-        question: 'What areas do you service for litter pickup?',
-        answer:
-          'We provide litter pickup services throughout the Greater Vancouver area, including residential neighborhoods, commercial properties, and public spaces. Contact us to confirm service availability in your specific location.',
-      },
-      {
-        question: 'How often can I schedule litter pickup services?',
-        answer:
-          'We offer flexible scheduling options including one-time cleanups, weekly, bi-weekly, or monthly service. We can customize a schedule that best fits your needs and budget.',
-      },
-      {
-        question: 'What types of litter do you handle?',
-        answer:
-          'We handle all types of litter including general trash, recyclables, organic waste, and hazardous materials (with proper handling). Our team is equipped to safely collect and dispose of various types of waste.',
-      },
-    ],
-  },
-  {
-    id: 'windows',
-    label: 'Window Cleaning',
-    faqs: [
-      {
-        question: 'How often should I have my windows cleaned?',
-        answer:
-          'For residential properties, we recommend professional window cleaning every 3-6 months. Commercial properties may require more frequent cleaning, typically every 1-3 months, depending on location and environmental factors.',
-      },
-      {
-        question: 'Do you clean both interior and exterior windows?',
-        answer:
-          'Yes, we offer both interior and exterior window cleaning services. You can choose either service or opt for a complete cleaning package that covers both sides of your windows.',
-      },
-      {
-        question: 'What cleaning methods do you use?',
-        answer:
-          'We use eco-friendly cleaning solutions and professional equipment including water-fed poles for high windows, squeegees, and microfiber cloths. Our methods are safe for all window types and the environment.',
-      },
-    ],
-  },
-  {
-    id: 'gutters',
-    label: 'Gutter Cleaning',
-    faqs: [
-      {
-        question: 'How often should gutters be cleaned?',
-        answer:
-          'We recommend cleaning gutters at least twice a year, typically in spring and fall. However, properties with many trees may require more frequent cleaning to prevent clogs and water damage.',
-      },
-      {
-        question: "What happens if I don't clean my gutters?",
-        answer:
-          "Neglected gutters can lead to water damage, foundation issues, roof damage, and pest infestations. Regular cleaning helps prevent these costly problems and maintains your property's structural integrity.",
-      },
-      {
-        question: 'Do you offer gutter repair services?',
-        answer:
-          "Yes, we can identify and repair common gutter issues such as leaks, sagging, and loose fasteners. We'll assess the damage and provide appropriate solutions during our service visit.",
-      },
-    ],
-  },
-  {
-    id: 'solar',
-    label: 'Solar Panel Cleaning',
-    faqs: [
-      {
-        question: 'How often should solar panels be cleaned?',
-        answer:
-          'We recommend cleaning solar panels every 6-12 months, depending on your location and environmental conditions. Regular cleaning helps maintain optimal energy efficiency.',
-      },
-      {
-        question: 'What cleaning methods do you use for solar panels?',
-        answer:
-          'We use specialized equipment and eco-friendly cleaning solutions that are safe for solar panels. Our methods effectively remove dirt, dust, and debris without damaging the panels or their protective coating.',
-      },
-      {
-        question: 'Will cleaning improve my solar panel efficiency?',
-        answer:
-          'Yes, regular cleaning can improve solar panel efficiency by up to 15-20%. Clean panels absorb more sunlight, leading to better energy production and potential savings on your energy bills.',
-      },
-    ],
-  },
+const services = [
+  { id: 'litter', label: 'Litter Pickup' },
+  { id: 'windows', label: 'Window Cleaning' },
+  { id: 'gutters', label: 'Gutter Cleaning' },
+  { id: 'solar', label: 'Solar Panel Cleaning' },
 ]
 
 export default function FAQs() {
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedService, setSelectedService] = useState<ServiceOption | null>(
-    null
-  )
+  const [selectedService, setSelectedService] = useState<
+    (typeof services)[0] | null
+  >(null)
+  const [serviceInfo, setServiceInfo] = useState<ServiceInfo | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSelect = (service: ServiceOption) => {
+  useEffect(() => {
+    // Check URL for service parameter
+    const urlParams = new URLSearchParams(window.location.search)
+    const serviceParam = urlParams.get('service')
+
+    if (serviceParam) {
+      const service = services.find((s) => s.id === serviceParam)
+      if (service) {
+        setSelectedService(service)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (selectedService) {
+      fetchServiceInfo(selectedService.label)
+    }
+  }, [selectedService])
+
+  const fetchServiceInfo = async (title: string) => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      console.log('Fetching service info for:', title)
+      const response = await fetch(
+        `/api/service-info?title=${encodeURIComponent(title)}`
+      )
+      const data = await response.json()
+      console.log('API Response status:', response.status)
+      console.log('API Response data:', data)
+
+      if (!response.ok) {
+        if (response.status === 404 && data.availableTitles) {
+          throw new Error(
+            `Service not found. Available services: ${data.availableTitles
+              .map((t: TitleRecord) => t.title)
+              .join(', ')}`
+          )
+        }
+        throw new Error(data.error || 'Failed to fetch service information')
+      }
+
+      if (!data || Object.keys(data).length === 0) {
+        console.log('No data received from API')
+        setError('No information available for this service.')
+        return
+      }
+
+      console.log('Setting service info:', data)
+      setServiceInfo(data)
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : 'Failed to load service information'
+      console.error('Error fetching service info:', errorMessage)
+      setError(errorMessage)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleSelect = (service: (typeof services)[0]) => {
     setSelectedService(service)
     setIsOpen(false)
   }
@@ -119,7 +112,7 @@ export default function FAQs() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
       >
-        <h1 className="text-3xl font-bold text-logoblue-30 text-center mb-8">
+        <h1 className="text-3xl font-bold text-logoblue-30 text-center mb-8 mt-2">
           Frequently Asked Questions
         </h1>
         <p className="pb-5 mb-5">
@@ -135,7 +128,7 @@ export default function FAQs() {
             <button
               type="button"
               onClick={() => setIsOpen(!isOpen)}
-              className="w-full px-4 py-2 text-left bg-transparent text-logobrown-10 hover:underline focus:outline-none font-inter text-lg"
+              className="w-full px-4 py-2 text-left bg-transparent text-logobrown-10 hover:underline focus:outline-none font-inter text-xl font-semibold"
             >
               {selectedService?.label || 'Select a Service'}
             </button>
@@ -147,7 +140,7 @@ export default function FAQs() {
                     key={service.id}
                     type="button"
                     onClick={() => handleSelect(service)}
-                    className="w-full px-4 py-2 text-left text-logoblue-30 hover:text-logobrown-10 focus:outline-none font-inter text-base hover:bg-logobrown-20"
+                    className="w-full px-4 py-2 text-left text-logoblue-30 hover:text-logobrown-10 focus:outline-none font-inter text-lg font-medium hover:bg-logobrown-20"
                   >
                     {service.label}
                   </button>
@@ -162,26 +155,106 @@ export default function FAQs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mt-4 p-6 bg-white rounded-sm shadow-md text-left"
+            className="mt-4 p-6 bg-logoblue-light border border-logoblue-30/10 rounded-sm shadow-md text-left"
           >
             <h2 className="text-2xl font-inter font-semibold text-logoblue-30 mb-6">
-              {selectedService.label} FAQs
+              Benefits of our {selectedService.label} Service
             </h2>
-            <div className="space-y-8">
-              {selectedService.faqs.map((faq, index) => (
-                <div
-                  key={index}
-                  className="border-b border-gray-200 pb-6 last:border-b-0"
-                >
-                  <h3 className="text-xl font-inter font-medium text-logobrown-10 mb-3">
-                    {faq.question}
-                  </h3>
+            {isLoading ? (
+              <div className="text-center py-4">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-logoblue-30 mx-auto"></div>
+                <p className="mt-2 text-gray-600">Loading information...</p>
+              </div>
+            ) : error ? (
+              <div className="text-center py-4 text-red-500">{error}</div>
+            ) : !serviceInfo ? (
+              <div className="text-center py-8">
+                <h3 className="text-2xl font-inter font-semibold text-logoblue-30 mb-4">
+                  Coming Soon!
+                </h3>
+                <p className="text-gray-600 leading-relaxed font-inter">
+                  We&apos;re currently preparing detailed information about our{' '}
+                  {selectedService.label} service. Please check back soon or
+                  contact us directly for more information.
+                </p>
+                <div className="mt-6">
+                  <Link href="/contact">
+                    <button className="px-6 py-2 bg-logoblue-30 text-yellow-logo transition-all shadow-[3px_3px_0px_steelblue] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-50 hover:text-black font-semibold">
+                      Contact Us
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-8">
+                <div className="border-b border-gray-200 pb-6">
                   <p className="text-gray-600 leading-relaxed font-inter">
-                    {faq.answer}
+                    {serviceInfo.main_para}
                   </p>
                 </div>
-              ))}
-            </div>
+
+                <div className="border-b border-gray-200 pb-6">
+                  <h3 className="text-xl font-inter font-medium text-logobrown-10 mb-3">
+                    {serviceInfo.h1}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed font-inter">
+                    {serviceInfo.para_1}
+                  </p>
+                </div>
+
+                <div className="border-b border-gray-200 pb-6">
+                  <h3 className="text-xl font-inter font-medium text-logobrown-10 mb-3">
+                    {serviceInfo.h2}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed font-inter">
+                    {serviceInfo.para_2}
+                  </p>
+                </div>
+
+                <div className="border-b border-gray-200 pb-6 last:border-b-0">
+                  <table className="w-full">
+                    <tbody>
+                      <tr className="border-b border-gray-200">
+                        <td className="py-4 pr-4 w-1/2">
+                          <h4 className="text-lg font-medium text-logoblue-30 mb-2">
+                            What People Say
+                          </h4>
+                        </td>
+                        <td className="py-4 pl-4 w-1/2 border-l border-gray-200">
+                          <h4 className="text-lg font-medium text-logoblue-30 mb-2">
+                            Key Facts
+                          </h4>
+                        </td>
+                      </tr>
+                      <tr className="border-b border-gray-200">
+                        <td className="py-4 pr-4 w-1/2">
+                          <p className="text-gray-600 leading-relaxed font-inter">
+                            &ldquo;{serviceInfo.people_say1}&rdquo;
+                          </p>
+                        </td>
+                        <td className="py-4 pl-4 w-1/2 border-l border-gray-200">
+                          <p className="text-gray-600 leading-relaxed font-inter">
+                            {serviceInfo.fact_1}
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="py-4 pr-4 w-1/2">
+                          <p className="text-gray-600 leading-relaxed font-inter">
+                            &ldquo;{serviceInfo.people_say2}&rdquo;
+                          </p>
+                        </td>
+                        <td className="py-4 pl-4 w-1/2 border-l border-gray-200">
+                          <p className="text-gray-600 leading-relaxed font-inter">
+                            {serviceInfo.fact_2}
+                          </p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
           </motion.div>
         )}
       </motion.div>

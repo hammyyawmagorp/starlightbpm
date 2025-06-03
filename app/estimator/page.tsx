@@ -4,7 +4,7 @@ import Estimator from '@/components/Estimator'
 
 export default function EstimatorPage() {
   return (
-    <div className="flex flex-col items-center pt-4 mt-4">
+    <div className="flex flex-col items-center pt-5 mt-5">
       <motion.div
         className="flex mt-4 w-full max-w-2xl p-3 bg-site-bg opacity-90 flex-col shadow-lg text-center"
         initial={{ y: 100, opacity: 0 }}

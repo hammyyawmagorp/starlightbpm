@@ -65,3 +65,21 @@ model faqs {
   title   String @db.VarChar(255)
   content String
 }
+
+model ServiceInfo {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255) @unique
+  main_para   String   @db.Text
+  h1          String   @db.VarChar(255)
+  para_1      String   @db.Text
+  h2          String   @db.VarChar(255)
+  para_2      String   @db.Text
+  people_say1 String   @db.Text
+  people_say2 String   @db.Text
+  fact_1      String   @db.Text
+  fact_2      String   @db.Text
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  @@map("service_info")
+}

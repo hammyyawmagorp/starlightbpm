@@ -16,6 +16,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   linkText = 'Free Window Cleaning Estimate',
 }) => {
   const isWindowCleaning = title.toLowerCase().includes('window')
+  const isLitterRemoval = title.toLowerCase().includes('litter')
 
   return (
     <motion.div
@@ -46,6 +47,16 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               whileTap={{ scale: 0.98 }}
             >
               {linkText}
+            </motion.button>
+          </Link>
+        ) : isLitterRemoval ? (
+          <Link href="/FAQs?service=litter">
+            <motion.button
+              className="w-full px-6 py-2 bg-logoblue-50 text-logoblue-light transition-all shadow-lg hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-10 hover:text-black font-semibold uppercase"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Learn More
             </motion.button>
           </Link>
         ) : (
