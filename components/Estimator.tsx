@@ -66,18 +66,8 @@ export default function Estimator() {
     if (buildingType !== 'residential') {
       setBuildingType(null)
     }
-    // Scroll to the estimator heading with an offset
-    const estimatorHeading = document.querySelector(
-      'h1.text-3xl.font-bold.text-logoblue-30'
-    )
-    if (estimatorHeading) {
-      const yOffset = -100 // Scroll 100px higher than the heading
-      const y =
-        estimatorHeading.getBoundingClientRect().top +
-        window.pageYOffset +
-        yOffset
-      window.scrollTo({ top: y, behavior: 'smooth' })
-    }
+    // Scroll to the top of the page with a longer duration
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleWindowsChange = (value: string) => {
@@ -476,9 +466,9 @@ export default function Estimator() {
                 <button
                   onClick={calculateEstimate}
                   disabled={isSuccessfulEstimate(estimate) || isCalculating}
-                  className={`px-6 py-2 transition-all font-semibold uppercase ${
+                  className={`px-6 py-2 transition-all duration-500 ease-in-out font-semibold uppercase ${
                     isSuccessfulEstimate(estimate) || isCalculating
-                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-50'
                       : 'bg-logoblue-30 text-yellow-logo shadow-[3px_3px_0px_steelblue] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-50 hover:text-black'
                   }`}
                 >
@@ -488,7 +478,7 @@ export default function Estimator() {
                   <div>
                     <button
                       onClick={resetTool}
-                      className="px-4 py-1.5 bg-yellow-logo text-black hover:bg-logobrown-10 hover:text-white rounded-sm transition-all font-inter text-sm"
+                      className="px-4 py-1.5 bg-yellow-logo text-black hover:bg-logobrown-10 hover:text-white rounded-sm transition-all duration-500 ease-in-out font-inter text-sm"
                     >
                       Retry Estimate
                     </button>
@@ -497,7 +487,7 @@ export default function Estimator() {
               </div>
 
               {estimate && typeof estimate === 'string' && (
-                <div className="mt-6 p-4 bg-white rounded-sm shadow-md text-center mb-5 pb-5 font-inter">
+                <div className="mt-6 p-4 bg-white rounded-sm shadow-md text-center mb-5 pb-5 font-inter transition-all duration-500 ease-in-out">
                   <p className="text-lg mb-4">{estimate}</p>
                 </div>
               )}
@@ -515,7 +505,7 @@ export default function Estimator() {
             </p>
             <button
               onClick={() => setShowContactForm(true)}
-              className="group relative px-8 py-4 bg-logoblue-30 text-white text-xl font-bold rounded-xl transition-all hover:bg-logoblue-50 hover:text-black hover:shadow-[0_0_30px_15px_rgba(255,215,0,0.7)] animate-[shadowPulse_2s_ease-in-out_infinite] hover:animate-none"
+              className="group relative px-8 py-4 bg-logoblue-30 text-white text-xl font-bold transition-all hover:bg-yellow-logo hover:text-black hover:shadow-[0_0_30px_15px_rgba(255,215,0,0.7)] animate-[shadowPulse_2s_ease-in-out_infinite] hover:animate-none"
             >
               <span>Book Now!</span>
             </button>

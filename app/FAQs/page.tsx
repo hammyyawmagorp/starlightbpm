@@ -22,9 +22,13 @@ interface TitleRecord {
 }
 
 const services = [
-  { id: 'litter', label: 'Litter Pickup' },
   { id: 'windows', label: 'Window Cleaning' },
   { id: 'gutters', label: 'Gutter Cleaning' },
+  { id: 'litter', label: 'Litter Pickup' },
+  { id: 'dead-animal', label: 'Dead Animal Removal' },
+  { id: 'decluttering', label: 'Decluttering' },
+  { id: 'estate', label: 'Estate Cleaning' },
+  { id: 'office', label: 'Office Cleaning' },
   { id: 'solar', label: 'Solar Panel Cleaning' },
 ]
 
@@ -193,23 +197,35 @@ export default function FAQs() {
                   </p>
                 </div>
 
-                <div className="border-b border-gray-200 pb-6">
-                  <h3 className="text-xl font-inter font-medium text-logobrown-10 mb-3">
-                    {serviceInfo.h1}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed font-inter">
-                    {serviceInfo.para_1}
-                  </p>
-                </div>
+                {(serviceInfo.h1 || serviceInfo.para_1) && (
+                  <div className="border-b border-gray-200 pb-6">
+                    {serviceInfo.h1 && (
+                      <h3 className="text-xl font-inter font-medium text-logobrown-10 mb-3">
+                        {serviceInfo.h1}
+                      </h3>
+                    )}
+                    {serviceInfo.para_1 && (
+                      <p className="text-gray-600 leading-relaxed font-inter">
+                        {serviceInfo.para_1}
+                      </p>
+                    )}
+                  </div>
+                )}
 
-                <div className="border-b border-gray-200 pb-6">
-                  <h3 className="text-xl font-inter font-medium text-logobrown-10 mb-3">
-                    {serviceInfo.h2}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed font-inter">
-                    {serviceInfo.para_2}
-                  </p>
-                </div>
+                {(serviceInfo.h2 || serviceInfo.para_2) && (
+                  <div className="border-b border-gray-200 pb-6">
+                    {serviceInfo.h2 && (
+                      <h3 className="text-xl font-inter font-medium text-logobrown-10 mb-3">
+                        {serviceInfo.h2}
+                      </h3>
+                    )}
+                    {serviceInfo.para_2 && (
+                      <p className="text-gray-600 leading-relaxed font-inter">
+                        {serviceInfo.para_2}
+                      </p>
+                    )}
+                  </div>
+                )}
 
                 <div className="border-b border-gray-200 pb-6 last:border-b-0">
                   <table className="w-full">
@@ -226,33 +242,70 @@ export default function FAQs() {
                           </h4>
                         </td>
                       </tr>
-                      <tr className="border-b border-gray-200">
-                        <td className="py-4 pr-4 w-1/2">
-                          <p className="text-gray-600 leading-relaxed font-inter">
-                            &ldquo;{serviceInfo.people_say1}&rdquo;
-                          </p>
-                        </td>
-                        <td className="py-4 pl-4 w-1/2 border-l border-gray-200">
-                          <p className="text-gray-600 leading-relaxed font-inter">
-                            {serviceInfo.fact_1}
-                          </p>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="py-4 pr-4 w-1/2">
-                          <p className="text-gray-600 leading-relaxed font-inter">
-                            &ldquo;{serviceInfo.people_say2}&rdquo;
-                          </p>
-                        </td>
-                        <td className="py-4 pl-4 w-1/2 border-l border-gray-200">
-                          <p className="text-gray-600 leading-relaxed font-inter">
-                            {serviceInfo.fact_2}
-                          </p>
-                        </td>
-                      </tr>
+                      {(serviceInfo.people_say1 || serviceInfo.fact_1) && (
+                        <tr className="border-b border-gray-200">
+                          <td className="py-4 pr-4 w-1/2">
+                            {serviceInfo.people_say1 && (
+                              <p className="text-gray-600 leading-relaxed font-inter">
+                                &ldquo;{serviceInfo.people_say1}&rdquo;
+                              </p>
+                            )}
+                          </td>
+                          <td className="py-4 pl-4 w-1/2 border-l border-gray-200">
+                            {serviceInfo.fact_1 && (
+                              <p className="text-gray-600 leading-relaxed font-inter">
+                                {serviceInfo.fact_1}
+                              </p>
+                            )}
+                          </td>
+                        </tr>
+                      )}
+                      {(serviceInfo.people_say2 || serviceInfo.fact_2) && (
+                        <tr>
+                          <td className="py-4 pr-4 w-1/2">
+                            {serviceInfo.people_say2 && (
+                              <p className="text-gray-600 leading-relaxed font-inter">
+                                &ldquo;{serviceInfo.people_say2}&rdquo;
+                              </p>
+                            )}
+                          </td>
+                          <td className="py-4 pl-4 w-1/2 border-l border-gray-200">
+                            {serviceInfo.fact_2 && (
+                              <p className="text-gray-600 leading-relaxed font-inter">
+                                {serviceInfo.fact_2}
+                              </p>
+                            )}
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
+
+                {selectedService?.id === 'windows' && (
+                  <div className="flex flex-col items-center mt-8">
+                    <p className="text-lg font-medium text-logoblue-30 mb-4 text-center">
+                      Get a free estimate and book your window cleaning today:
+                    </p>
+                    <Link href="/estimator">
+                      <motion.button
+                        className="px-6 py-2 bg-logoblue-30 text-yellow-logo transition-all shadow-lg hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logobrown-10 hover:text-logoblue-light font-semibold uppercase group relative"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <span>
+                          Free
+                          <br />
+                          Estimate
+                        </span>
+                        <span className="absolute left-0 top-0 h-[2px] w-0 bg-yellow-logo transition-all duration-100 group-hover:w-full" />
+                        <span className="absolute right-0 top-0 w-[2px] h-0 bg-yellow-logo transition-all delay-100 duration-100 group-hover:h-full" />
+                        <span className="absolute bottom-0 right-0 h-[2px] w-0 bg-yellow-logo transition-all delay-200 duration-100 group-hover:w-full" />
+                        <span className="absolute bottom-0 left-0 w-[2px] h-0 bg-yellow-logo transition-all delay-300 duration-100 group-hover:h-full" />
+                      </motion.button>
+                    </Link>
+                  </div>
+                )}
               </div>
             )}
           </motion.div>

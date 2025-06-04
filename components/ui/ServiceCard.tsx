@@ -6,17 +6,30 @@ interface ServiceCardProps {
   title: string
   description: string
   link?: string
-  linkText?: string
 }
 
 export const ServiceCard: React.FC<ServiceCardProps> = ({
   title,
   description,
   link = '/estimator',
-  linkText = 'Free Window Cleaning Estimate',
 }) => {
   const isWindowCleaning = title.toLowerCase().includes('window')
-  const isLitterRemoval = title.toLowerCase().includes('litter')
+
+  // Map service titles to their FAQ IDs
+  const getServiceId = (title: string) => {
+    const titleLower = title.toLowerCase()
+    if (titleLower.includes('window')) return 'windows'
+    if (titleLower.includes('litter')) return 'litter'
+    if (titleLower.includes('gutter')) return 'gutters'
+    if (titleLower.includes('solar')) return 'solar'
+    if (titleLower.includes('dead animal')) return 'dead-animal'
+    if (titleLower.includes('decluttering')) return 'decluttering'
+    if (titleLower.includes('estate')) return 'estate'
+    if (titleLower.includes('office')) return 'office'
+    return ''
+  }
+
+  const serviceId = getServiceId(title)
 
   return (
     <motion.div
@@ -40,33 +53,56 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
       <div>
         <hr className="border-neutral-300 mb-6" />
         {isWindowCleaning ? (
-          <Link href={link}>
-            <motion.button
-              className="w-full px-6 py-2 bg-logoblue-50 text-logoblue-light transition-all shadow-lg hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-10 hover:text-black font-semibold uppercase"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              {linkText}
-            </motion.button>
-          </Link>
-        ) : isLitterRemoval ? (
-          <Link href="/FAQs?service=litter">
-            <motion.button
-              className="w-full px-6 py-2 bg-logoblue-50 text-logoblue-light transition-all shadow-lg hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-10 hover:text-black font-semibold uppercase"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Learn More
-            </motion.button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link href={link} className="flex-1">
+              <motion.button
+                className="w-full px-6 py-2 bg-logoblue-30 text-yellow-logo transition-all shadow-lg hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logobrown-10 hover:text-logoblue-light font-semibold uppercase group relative"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>
+                  Free
+                  <br />
+                  Estimate
+                </span>
+                <span className="absolute left-0 top-0 h-[2px] w-0 bg-yellow-logo transition-all duration-100 group-hover:w-full" />
+                <span className="absolute right-0 top-0 w-[2px] h-0 bg-yellow-logo transition-all delay-100 duration-100 group-hover:h-full" />
+                <span className="absolute bottom-0 right-0 h-[2px] w-0 bg-yellow-logo transition-all delay-200 duration-100 group-hover:w-full" />
+                <span className="absolute bottom-0 left-0 w-[2px] h-0 bg-yellow-logo transition-all delay-300 duration-100 group-hover:h-full" />
+              </motion.button>
+            </Link>
+            <Link href="/FAQs?service=windows" className="flex-1">
+              <motion.button
+                className="w-full px-6 py-2 bg-logoblue-50 text-logoblue-light transition-all shadow-lg hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-10 hover:text-black font-semibold uppercase group relative"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>
+                  Learn
+                  <br />
+                  More
+                </span>
+                <span className="absolute left-0 top-0 h-[2px] w-0 bg-black transition-all duration-100 group-hover:w-full" />
+                <span className="absolute right-0 top-0 w-[2px] h-0 bg-black transition-all delay-100 duration-100 group-hover:h-full" />
+                <span className="absolute bottom-0 right-0 h-[2px] w-0 bg-black transition-all delay-200 duration-100 group-hover:w-full" />
+                <span className="absolute bottom-0 left-0 w-[2px] h-0 bg-black transition-all delay-300 duration-100 group-hover:h-full" />
+              </motion.button>
+            </Link>
+          </div>
         ) : (
-          <motion.button
-            className="w-full px-6 py-2 bg-logoblue-50 text-logoblue-light transition-all shadow-lg hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-10 hover:text-black font-semibold uppercase"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            Learn More
-          </motion.button>
+          <Link href={`/FAQs?service=${serviceId}`}>
+            <motion.button
+              className="w-full px-6 py-2 bg-logoblue-50 text-logoblue-light transition-all shadow-lg hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logoblue-10 hover:text-black font-semibold uppercase group relative"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span>Learn More</span>
+              <span className="absolute left-0 top-0 h-[2px] w-0 bg-black transition-all duration-100 group-hover:w-full" />
+              <span className="absolute right-0 top-0 w-[2px] h-0 bg-black transition-all delay-100 duration-100 group-hover:h-full" />
+              <span className="absolute bottom-0 right-0 h-[2px] w-0 bg-black transition-all delay-200 duration-100 group-hover:w-full" />
+              <span className="absolute bottom-0 left-0 w-[2px] h-0 bg-black transition-all delay-300 duration-100 group-hover:h-full" />
+            </motion.button>
+          </Link>
         )}
       </div>
     </motion.div>
