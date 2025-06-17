@@ -72,6 +72,23 @@ const Footer = () => {
               </div>
             </div>
 
+            <div className="flex-1 flex justify-center">
+              <div>
+                <h4 className="bold-18 whitespace-nowrap pb-3 text-center">
+                  Service Area
+                </h4>
+                <div className="text-center">
+                  <p className="text-logoblue-30 font-semibold mb-2">
+                    Greater Toronto Area (GTA)
+                  </p>
+                  <p className="text-sm text-gray-600 mb-1">
+                    Brampton & Surrounding Areas
+                  </p>
+                  <p className="text-sm text-gray-600">Ontario, Canada</p>
+                </div>
+              </div>
+            </div>
+
             <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-5">
                 <h4 className="bold-18 whitespace-nowrap">Follow Us</h4>

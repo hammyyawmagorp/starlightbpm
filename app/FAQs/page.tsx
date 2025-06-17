@@ -64,13 +64,10 @@ export default function FAQs() {
     setIsLoading(true)
     setError(null)
     try {
-      console.log('Fetching service info for:', title)
       const response = await fetch(
         `/api/service-info?title=${encodeURIComponent(title)}`
       )
       const data = await response.json()
-      console.log('API Response status:', response.status)
-      console.log('API Response data:', data)
 
       if (!response.ok) {
         if (response.status === 404 && data.availableTitles) {
@@ -84,19 +81,16 @@ export default function FAQs() {
       }
 
       if (!data || Object.keys(data).length === 0) {
-        console.log('No data received from API')
         setError('No information available for this service.')
         return
       }
 
-      console.log('Setting service info:', data)
       setServiceInfo(data)
     } catch (err) {
       const errorMessage =
         err instanceof Error
           ? err.message
           : 'Failed to load service information'
-      console.error('Error fetching service info:', errorMessage)
       setError(errorMessage)
     } finally {
       setIsLoading(false)

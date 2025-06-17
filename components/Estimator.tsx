@@ -141,7 +141,6 @@ export default function Estimator() {
     setFormSubmitted(true)
 
     if (!isEmailValid || !isPhoneValid || !isNameValid) {
-      console.log('Error! Please fill in all required fields.')
       return
     }
 
@@ -610,20 +609,20 @@ export default function Estimator() {
                     onChange={(e) => setName(e.target.value)}
                     onBlur={() => setNameTouched(true)}
                     className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
-                    ${
-                      (formSubmitted || (nameTouched && name.length > 0)) &&
-                      !isNameValid
-                        ? 'border-red-500 text-red-600'
-                        : ''
-                    }
-                    ${
-                      (formSubmitted || (nameTouched && name.length > 0)) &&
-                      isNameValid
-                        ? 'border-green-500'
-                        : 'border-logoblue-30'
-                    }
+                  ${
+                    (formSubmitted || (nameTouched && name.length > 0)) &&
+                    !isNameValid
+                      ? 'border-red-500 text-red-600'
+                      : ''
+                  }
+                  ${
+                    (formSubmitted || (nameTouched && name.length > 0)) &&
+                    isNameValid
+                      ? 'border-green-500'
+                      : 'border-logoblue-30'
+                  }
                     peer
-                  `}
+                `}
                     required
                   />
                   <label
@@ -658,22 +657,20 @@ export default function Estimator() {
                     onChange={(e) => setAddress(e.target.value)}
                     onBlur={() => setAddressTouched(true)}
                     className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
-                    ${
-                      (formSubmitted ||
-                        (addressTouched && address.length > 0)) &&
-                      !isAddressValid
-                        ? 'border-red-500 text-red-600'
-                        : ''
-                    }
-                    ${
-                      (formSubmitted ||
-                        (addressTouched && address.length > 0)) &&
-                      isAddressValid
-                        ? 'border-green-500'
-                        : 'border-logoblue-30'
-                    }
+                  ${
+                    (formSubmitted || (addressTouched && address.length > 0)) &&
+                    !isAddressValid
+                      ? 'border-red-500 text-red-600'
+                      : ''
+                  }
+                  ${
+                    (formSubmitted || (addressTouched && address.length > 0)) &&
+                    isAddressValid
+                      ? 'border-green-500'
+                      : 'border-logoblue-30'
+                  }
                     peer
-                  `}
+                `}
                     required
                   />
                   <label
@@ -705,20 +702,20 @@ export default function Estimator() {
                       onChange={(e) => setCity(e.target.value)}
                       onBlur={() => setCityTouched(true)}
                       className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
-                      ${
-                        (formSubmitted || (cityTouched && city.length > 0)) &&
-                        !isCityValid
-                          ? 'border-red-500 text-red-600'
-                          : ''
-                      }
-                      ${
-                        (formSubmitted || (cityTouched && city.length > 0)) &&
-                        isCityValid
-                          ? 'border-green-500'
-                          : 'border-logoblue-30'
-                      }
+                    ${
+                      (formSubmitted || (cityTouched && city.length > 0)) &&
+                      !isCityValid
+                        ? 'border-red-500 text-red-600'
+                        : ''
+                    }
+                    ${
+                      (formSubmitted || (cityTouched && city.length > 0)) &&
+                      isCityValid
+                        ? 'border-green-500'
+                        : 'border-logoblue-30'
+                    }
                       peer
-                    `}
+                  `}
                       required
                     />
                     <label
@@ -760,15 +757,15 @@ export default function Estimator() {
                           ? 'border-red-500 text-red-600'
                           : ''
                       }
-                      ${
-                        (formSubmitted ||
-                          (postalCodeTouched && postalCode.length > 0)) &&
-                        isPostalCodeValid
-                          ? 'border-green-500'
-                          : 'border-logoblue-30'
-                      }
+                    ${
+                      (formSubmitted ||
+                        (postalCodeTouched && postalCode.length > 0)) &&
+                      isPostalCodeValid
+                        ? 'border-green-500'
+                        : 'border-logoblue-30'
+                    }
                       peer
-                    `}
+                  `}
                     />
                     <label
                       htmlFor="postalCode"
@@ -799,20 +796,20 @@ export default function Estimator() {
                       onChange={(e) => setEmail(e.target.value)}
                       onBlur={() => setEmailTouched(true)}
                       className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
-                      ${
-                        (formSubmitted || (emailTouched && email.length > 0)) &&
-                        !isEmailValid
-                          ? 'border-red-500 text-red-600'
-                          : ''
-                      }
-                      ${
-                        (formSubmitted || (emailTouched && email.length > 0)) &&
-                        isEmailValid
-                          ? 'border-green-500'
-                          : 'border-logoblue-30'
-                      }
+                    ${
+                      (formSubmitted || (emailTouched && email.length > 0)) &&
+                      !isEmailValid
+                        ? 'border-red-500 text-red-600'
+                        : ''
+                    }
+                    ${
+                      (formSubmitted || (emailTouched && email.length > 0)) &&
+                      isEmailValid
+                        ? 'border-green-500'
+                        : 'border-logoblue-30'
+                    }
                       peer
-                    `}
+                  `}
                       required
                     />
                     <label
@@ -842,20 +839,20 @@ export default function Estimator() {
                       onChange={(e) => setPhone(e.target.value)}
                       onBlur={() => setPhoneTouched(true)}
                       className={`w-full sm:max-w-[650px] lg:max-w-[700px] p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
-                      ${
-                        (formSubmitted || (phoneTouched && phone.length > 0)) &&
-                        !isPhoneValid
-                          ? 'border-red-500 text-red-600'
-                          : ''
-                      }
-                      ${
-                        (formSubmitted || (phoneTouched && phone.length > 0)) &&
-                        isPhoneValid
-                          ? 'border-green-500'
-                          : 'border-logoblue-30'
-                      }
+                    ${
+                      (formSubmitted || (phoneTouched && phone.length > 0)) &&
+                      !isPhoneValid
+                        ? 'border-red-500 text-red-600'
+                        : ''
+                    }
+                    ${
+                      (formSubmitted || (phoneTouched && phone.length > 0)) &&
+                      isPhoneValid
+                        ? 'border-green-500'
+                        : 'border-logoblue-30'
+                    }
                       peer
-                    `}
+                  `}
                       required
                     />
                     <label

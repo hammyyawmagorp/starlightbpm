@@ -65,7 +65,6 @@ export default function ContactForm({
     setFormSubmitted(true)
 
     if (!isEmailValid || !isPhoneValid || !isNameValid) {
-      console.log('Error! Please fill in all required fields.')
       return
     }
 
@@ -114,11 +113,8 @@ export default function ContactForm({
         setShowPrivacyText(true)
       }
     } catch (error) {
-      console.log(
-        'Database error:',
-        JSON.stringify(error, Object.getOwnPropertyNames(error))
-      )
       setShowPrivacyText(true)
+      setIsSubmitting(false)
     }
   }
 
