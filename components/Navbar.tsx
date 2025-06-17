@@ -42,7 +42,7 @@ const Navbar = () => {
 
   return (
     <div className="relative">
-      <nav className="flexBetween max-container padding-container relative z-30 py-5">
+      <nav className="flexBetween max-container padding-container relative z-30 py-7">
         <Link href="/">
           <Image
             src="/sbm-logo-1.svg"

@@ -1,18 +1,21 @@
-'use client'
-import { motion } from 'framer-motion'
+import { Metadata } from 'next'
 import Estimator from '@/components/Estimator'
 
+export const metadata: Metadata = {
+  title: 'Free Window Cleaning Estimate in Brampton & GTA | Starlight BPM',
+  description:
+    'Get a free window cleaning estimate for your home or business in Brampton and GTA. Quick, accurate quotes for residential and commercial window cleaning services. No obligation.',
+  keywords:
+    'window cleaning estimate Brampton, free window cleaning quote GTA, window cleaning cost calculator, residential window cleaning estimate, commercial window cleaning quote, Brampton window cleaning prices, GTA window cleaning rates',
+  openGraph: {
+    title: 'Free Window Cleaning Estimate in Brampton & GTA',
+    description:
+      'Get a free window cleaning estimate for your home or business in Brampton and GTA. Quick, accurate quotes for residential and commercial window cleaning services.',
+    locale: 'en_CA',
+    type: 'website',
+  },
+}
+
 export default function EstimatorPage() {
-  return (
-    <div className="flex flex-col items-center pt-5 mt-5">
-      <motion.div
-        className="flex mt-4 w-full max-w-2xl p-3 bg-site-bg opacity-90 flex-col shadow-lg text-center"
-        initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-      >
-        <Estimator />
-      </motion.div>
-    </div>
-  )
+  return <Estimator />
 }

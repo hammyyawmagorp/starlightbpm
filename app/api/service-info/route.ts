@@ -31,42 +31,38 @@ export async function GET(request: Request) {
       )
     }
 
-    console.log('Searching for service info with title:', title)
-
-    // Get all titles for debugging
-    const allTitles = await prisma.$queryRaw`
-      SELECT title FROM service_info;
-    `
-    console.log('All available titles in database:', allTitles)
-
-    // Try case-insensitive search
-    const serviceInfo = await prisma.$queryRaw<ServiceInfo[]>`
-      SELECT * FROM service_info WHERE LOWER(title) = LOWER(${title});
-    `
-    console.log('Query result for title:', title, serviceInfo)
-
-    if (!serviceInfo || serviceInfo.length === 0) {
-      console.log('No service info found for title:', title)
-      return NextResponse.json(
-        {
-          error: 'Service not found',
-          availableTitles: allTitles,
-          searchedTitle: title,
+    try {
+      const serviceInfo = await prisma.serviceInfo.findFirst({
+        where: {
+          title: {
+            equals: title,
+            mode: 'insensitive',
+          },
         },
-        { status: 404 }
+      })
+
+      if (!serviceInfo) {
+        const allTitles = await prisma.serviceInfo.findMany({
+          select: { title: true },
+        })
+
+        return NextResponse.json(
+          {
+            error: 'Service not found',
+            availableTitles: allTitles,
+          },
+          { status: 404 }
+        )
+      }
+
+      return NextResponse.json(serviceInfo)
+    } catch (error) {
+      console.error('Error in GET /api/service-info:', error)
+      return NextResponse.json(
+        { error: 'Failed to fetch service information' },
+        { status: 500 }
       )
     }
-
-    return NextResponse.json(serviceInfo[0])
-  } catch (error) {
-    console.error('Error in GET /api/service-info:', error)
-    return NextResponse.json(
-      {
-        error: 'Failed to fetch service information',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      { status: 500 }
-    )
   } finally {
     await prisma.$disconnect()
   }

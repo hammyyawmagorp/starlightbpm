@@ -227,7 +227,7 @@ export default function Estimator() {
         <div className="space-y-6 w-full max-w-md mx-auto mb-5 pb-5 font-inter">
           <div className="text-center">
             <label className="block text-lg font-semibold mb-2">
-              Type of Property:
+              Select The Property Type:
             </label>
             <div className="flex flex-col min-[340px]:flex-row gap-4 justify-center items-center">
               <button
@@ -538,7 +538,7 @@ export default function Estimator() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
-              Your Quote Confirmation number:
+              Please save your Quote Confirmation number:
             </motion.p>
             <motion.p
               className="text-3xl text-center text-logobrown-10 flexCenter font-mono tracking-widest pb-2"

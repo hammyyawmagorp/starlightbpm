@@ -120,7 +120,8 @@ const Footer = () => {
         </div>
         <div className="h-[1px] w-full bg-gradient-to-r from-logoblue-30 via-yellow-logo to-logobrown-10"></div>
         <p className="text-l w-full text-center text-logobrown-10">
-          Starlight Building Maintenance Inc. | 2025 All Rights Reserved
+          © {new Date().getFullYear()} Starlight Building & Property Maintenance
+          Inc. All rights reserved.
         </p>
         <p className="text-xs text-center text-logobrown-10 pb-5">
           Website Designed & Distributed by ©Zarik Tech
