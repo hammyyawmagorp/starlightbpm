@@ -194,12 +194,10 @@ export default function Estimator() {
           setMessage('')
         }, 1500)
       } else {
-        console.log('Error submitting form:', data.message)
         setShowPrivacyText(true)
         setIsSubmitting(false)
       }
-    } catch (error) {
-      console.error('Error submitting form:', error)
+    } catch {
       setShowPrivacyText(true)
       setIsSubmitting(false)
     }

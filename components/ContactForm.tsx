@@ -97,7 +97,7 @@ export default function ContactForm({
 
       const data = await response.json()
 
-      if (response.ok) {
+      if (response.ok && data.success) {
         setTimeout(() => {
           setIsSubmitting(false)
           setIsSubmitted(true)
@@ -109,12 +109,10 @@ export default function ContactForm({
           setMessage('')
         }, 1500)
       } else {
-        console.log('Error submitting form:', data.message)
         setShowPrivacyText(true)
       }
-    } catch (error) {
+    } catch {
       setShowPrivacyText(true)
-      setIsSubmitting(false)
     }
   }
 
