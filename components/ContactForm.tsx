@@ -213,18 +213,18 @@ export default function ContactForm({
                 onChange={(e) => setName(e.target.value)}
                 onBlur={() => setNameTouched(true)}
                 className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
-                  ${
-                    showNameError && !isNameValid
-                      ? 'border-red-500 text-red-600'
-                      : ''
-                  }
-                  ${
-                    showNameError && isNameValid
-                      ? 'border-green-500'
-                      : 'border-logoblue-30'
-                  }
+                ${
+                  showNameError && !isNameValid
+                    ? 'border-red-500 text-red-600'
+                    : ''
+                }
+                ${
+                  showNameError && isNameValid
+                    ? 'border-green-500'
+                    : 'border-logoblue-30'
+                }
                   peer
-                `}
+              `}
                 required
               />
               <label
@@ -257,18 +257,18 @@ export default function ContactForm({
                 onChange={(e) => setAddress(e.target.value)}
                 onBlur={() => setAddressTouched(true)}
                 className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
-                  ${
-                    showAddressError && !isAddressValid
-                      ? 'border-red-500 text-red-600'
-                      : ''
-                  }
-                  ${
-                    showAddressError && isAddressValid
-                      ? 'border-green-500'
-                      : 'border-logoblue-30'
-                  }
+                ${
+                  showAddressError && !isAddressValid
+                    ? 'border-red-500 text-red-600'
+                    : ''
+                }
+                ${
+                  showAddressError && isAddressValid
+                    ? 'border-green-500'
+                    : 'border-logoblue-30'
+                }
                   peer
-                `}
+              `}
                 required
               />
               <label
@@ -297,18 +297,18 @@ export default function ContactForm({
                   onChange={(e) => setCity(e.target.value)}
                   onBlur={() => setCityTouched(true)}
                   className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
-                    ${
-                      showCityError && !isCityValid
-                        ? 'border-red-500 text-red-600'
-                        : ''
-                    }
-                    ${
-                      showCityError && isCityValid
-                        ? 'border-green-500'
-                        : 'border-logoblue-30'
-                    }
+                  ${
+                    showCityError && !isCityValid
+                      ? 'border-red-500 text-red-600'
+                      : ''
+                  }
+                  ${
+                    showCityError && isCityValid
+                      ? 'border-green-500'
+                      : 'border-logoblue-30'
+                  }
                     peer
-                  `}
+                `}
                   required
                 />
                 <label
@@ -346,13 +346,13 @@ export default function ContactForm({
                         ? 'border-red-500 text-red-600'
                         : ''
                     }
-                    ${
-                      showPostalCodeError && isPostalCodeValid
-                        ? 'border-green-500'
-                        : 'border-logoblue-30'
-                    }
+                  ${
+                    showPostalCodeError && isPostalCodeValid
+                      ? 'border-green-500'
+                      : 'border-logoblue-30'
+                  }
                     peer
-                  `}
+                `}
                 />
                 <label
                   htmlFor="postalCode"
@@ -381,18 +381,18 @@ export default function ContactForm({
                   onChange={(e) => setEmail(e.target.value)}
                   onBlur={() => setEmailTouched(true)}
                   className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
-                    ${
-                      showEmailError && !isEmailValid
-                        ? 'border-red-500 text-red-600'
-                        : ''
-                    }
-                    ${
-                      showEmailError && isEmailValid
-                        ? 'border-green-500'
-                        : 'border-logoblue-30'
-                    }
+                  ${
+                    showEmailError && !isEmailValid
+                      ? 'border-red-500 text-red-600'
+                      : ''
+                  }
+                  ${
+                    showEmailError && isEmailValid
+                      ? 'border-green-500'
+                      : 'border-logoblue-30'
+                  }
                     peer
-                  `}
+                `}
                   required
                 />
                 <label
@@ -420,18 +420,18 @@ export default function ContactForm({
                   onChange={(e) => setPhone(e.target.value)}
                   onBlur={() => setPhoneTouched(true)}
                   className={`w-full p-2 border rounded-sm hover:bg-logobrown-20 focus:outline-none font-inter
-                    ${
-                      showPhoneError && !isPhoneValid
-                        ? 'border-red-500 text-red-600'
-                        : ''
-                    }
-                    ${
-                      showPhoneError && isPhoneValid
-                        ? 'border-green-500'
-                        : 'border-logoblue-30'
-                    }
+                  ${
+                    showPhoneError && !isPhoneValid
+                      ? 'border-red-500 text-red-600'
+                      : ''
+                  }
+                  ${
+                    showPhoneError && isPhoneValid
+                      ? 'border-green-500'
+                      : 'border-logoblue-30'
+                  }
                     peer
-                  `}
+                `}
                   required
                 />
                 <label
