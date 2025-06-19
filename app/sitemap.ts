@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://starlightbpm.ca'
-  const currentDate = new Date()
+  const currentDate = new Date().toISOString()
 
   return [
     {
