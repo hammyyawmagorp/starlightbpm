@@ -3,24 +3,47 @@ import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-const baseImages = [
-  '/carousel-1.jpeg',
-  '/carousel-2.png',
-  '/carousel-3.png',
-  '/carousel-4.png',
-  '/carousel-5.png',
-  '/carousel-7.jpeg',
+const carouselImages = [
+  {
+    src: '/carousel-1.jpeg',
+    alt: 'Professional window cleaning service in action',
+  },
+  {
+    src: '/carousel-2.png',
+    alt: 'Litter pick up service',
+  },
+  {
+    src: '/carousel-3.png',
+    alt: 'Residential gutter cleaning and maintenance',
+  },
+  {
+    src: '/carousel-4.png',
+    alt: 'Decluttering and organizing services',
+  },
+  {
+    src: '/carousel-5.png',
+    alt: 'House and estate cleaning',
+  },
+  {
+    src: '/carousel-7.jpeg',
+    alt: 'Local quality window cleaning in action',
+  },
 ]
 
 const ImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [images, setImages] = useState(baseImages)
+  const [images, setImages] = useState(carouselImages)
   const [isTransitioning, setIsTransitioning] = useState(false)
 
   useEffect(() => {
     // Add timestamp to images after component mounts
     const timestamp = Date.now()
-    setImages(baseImages.map((img) => `${img}?v=${timestamp}`))
+    setImages(
+      carouselImages.map((img) => ({
+        ...img,
+        src: `${img.src}?v=${timestamp}`,
+      }))
+    )
   }, [])
 
   // Memoizing nextImage to avoid unnecessary re-renders
@@ -56,14 +79,14 @@ const ImageCarousel = () => {
       <div className="relative w-full aspect-[3/4] overflow-hidden">
         {images.map((img, index) => (
           <div
-            key={img}
+            key={img.src}
             className={`absolute inset-0 transition-opacity duration-500 ${
               index === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}
           >
             <Image
-              src={img}
-              alt={`Slide ${index + 1}`}
+              src={img.src}
+              alt={img.alt}
               fill
               priority={index === currentIndex}
               className="object-cover"
@@ -76,6 +99,7 @@ const ImageCarousel = () => {
         className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800/80 hover:bg-gray-800 p-2 rounded-full text-white disabled:opacity-50 transition-colors"
         onClick={prevImage}
         disabled={isTransitioning}
+        aria-label="Previous image"
       >
         <ChevronLeft size={24} />
       </button>
@@ -83,6 +107,7 @@ const ImageCarousel = () => {
         className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800/80 hover:bg-gray-800 p-2 rounded-full text-white disabled:opacity-50 transition-colors"
         onClick={nextImage}
         disabled={isTransitioning}
+        aria-label="Next image"
       >
         <ChevronRight size={24} />
       </button>
