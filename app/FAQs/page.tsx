@@ -1,7 +1,23 @@
-'use client'
+import { Metadata } from 'next'
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'Window Cleaning FAQ: What People Say vs Expert Facts | Starlight BPM',
+  description:
+    'Unique FAQ format: Compare what customers say about our window cleaning services vs expert facts and insights. Real customer experiences and professional knowledge about window cleaning in Brampton and GTA.',
+  keywords:
+    'window cleaning customer reviews, window cleaning expert facts, what people say about window cleaning, window cleaning FAQ Brampton, GTA window cleaning reviews, window cleaning customer experiences, professional window cleaning insights',
+  openGraph: {
+    title:
+      'Window Cleaning FAQ: What People Say vs Expert Facts | Starlight BPM',
+    description:
+      'Unique FAQ format: Compare what customers say about our window cleaning services vs expert facts and insights. Real experiences and professional knowledge.',
+    locale: 'en_CA',
+    type: 'website',
+  },
+}
 
 interface ServiceInfo {
   id: number
@@ -221,83 +237,39 @@ export default function FAQs() {
                   </div>
                 )}
 
-                <div className="border-b border-gray-200 pb-6 last:border-b-0">
-                  <table className="w-full">
-                    <tbody>
-                      <tr className="border-b border-gray-200">
-                        <td className="py-4 pr-4 w-1/2">
-                          <h4 className="text-lg font-medium text-logoblue-30 mb-2">
-                            What People Say
-                          </h4>
-                        </td>
-                        <td className="py-4 pl-4 w-1/2 border-l border-gray-200">
-                          <h4 className="text-lg font-medium text-logoblue-30 mb-2">
-                            Key Facts
-                          </h4>
-                        </td>
-                      </tr>
-                      {(serviceInfo.people_say1 || serviceInfo.fact_1) && (
-                        <tr className="border-b border-gray-200">
-                          <td className="py-4 pr-4 w-1/2">
-                            {serviceInfo.people_say1 && (
-                              <p className="text-gray-600 leading-relaxed font-inter">
-                                &ldquo;{serviceInfo.people_say1}&rdquo;
-                              </p>
-                            )}
-                          </td>
-                          <td className="py-4 pl-4 w-1/2 border-l border-gray-200">
-                            {serviceInfo.fact_1 && (
-                              <p className="text-gray-600 leading-relaxed font-inter">
-                                {serviceInfo.fact_1}
-                              </p>
-                            )}
-                          </td>
-                        </tr>
-                      )}
-                      {(serviceInfo.people_say2 || serviceInfo.fact_2) && (
-                        <tr>
-                          <td className="py-4 pr-4 w-1/2">
-                            {serviceInfo.people_say2 && (
-                              <p className="text-gray-600 leading-relaxed font-inter">
-                                &ldquo;{serviceInfo.people_say2}&rdquo;
-                              </p>
-                            )}
-                          </td>
-                          <td className="py-4 pl-4 w-1/2 border-l border-gray-200">
-                            {serviceInfo.fact_2 && (
-                              <p className="text-gray-600 leading-relaxed font-inter">
-                                {serviceInfo.fact_2}
-                              </p>
-                            )}
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
+                {(serviceInfo.people_say1 || serviceInfo.people_say2) && (
+                  <div className="border-b border-gray-200 pb-6">
+                    <h3 className="text-xl font-inter font-medium text-logobrown-10 mb-3">
+                      What People Say
+                    </h3>
+                    {serviceInfo.people_say1 && (
+                      <p className="text-gray-600 leading-relaxed font-inter mb-3 italic">
+                        &quot;{serviceInfo.people_say1}&quot;
+                      </p>
+                    )}
+                    {serviceInfo.people_say2 && (
+                      <p className="text-gray-600 leading-relaxed font-inter italic">
+                        &quot;{serviceInfo.people_say2}&quot;
+                      </p>
+                    )}
+                  </div>
+                )}
 
-                {selectedService?.id === 'windows' && (
-                  <div className="flex flex-col items-center mt-8">
-                    <p className="text-lg font-medium text-logoblue-30 mb-4 text-center">
-                      Get a free estimate and book your window cleaning today:
-                    </p>
-                    <Link href="/estimator">
-                      <motion.button
-                        className="px-6 py-2 bg-logoblue-30 text-yellow-logo transition-all shadow-lg hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] hover:bg-logobrown-10 hover:text-logoblue-light font-semibold uppercase group relative"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <span>
-                          Free
-                          <br />
-                          Estimate
-                        </span>
-                        <span className="absolute left-0 top-0 h-[2px] w-0 bg-yellow-logo transition-all duration-100 group-hover:w-full" />
-                        <span className="absolute right-0 top-0 w-[2px] h-0 bg-yellow-logo transition-all delay-100 duration-100 group-hover:h-full" />
-                        <span className="absolute bottom-0 right-0 h-[2px] w-0 bg-yellow-logo transition-all delay-200 duration-100 group-hover:w-full" />
-                        <span className="absolute bottom-0 left-0 w-[2px] h-0 bg-yellow-logo transition-all delay-300 duration-100 group-hover:h-full" />
-                      </motion.button>
-                    </Link>
+                {(serviceInfo.fact_1 || serviceInfo.fact_2) && (
+                  <div>
+                    <h3 className="text-xl font-inter font-medium text-logobrown-10 mb-3">
+                      Key Facts
+                    </h3>
+                    {serviceInfo.fact_1 && (
+                      <p className="text-gray-600 leading-relaxed font-inter mb-3">
+                        {serviceInfo.fact_1}
+                      </p>
+                    )}
+                    {serviceInfo.fact_2 && (
+                      <p className="text-gray-600 leading-relaxed font-inter">
+                        {serviceInfo.fact_2}
+                      </p>
+                    )}
                   </div>
                 )}
               </div>

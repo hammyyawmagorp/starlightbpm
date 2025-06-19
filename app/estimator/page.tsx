@@ -2,15 +2,16 @@ import { Metadata } from 'next'
 import Estimator from '@/components/Estimator'
 
 export const metadata: Metadata = {
-  title: 'Free Window Cleaning Estimate in Brampton & GTA | Starlight BPM',
+  title:
+    'Instant Window Cleaning Estimate Calculator | No Phone Calls - Starlight BPM',
   description:
-    'Get a free window cleaning estimate for your home or business in Brampton and GTA. Quick, accurate quotes for residential and commercial window cleaning services. No obligation.',
+    'Get an instant window cleaning estimate online - no phone calls, no waiting, no forms to fill out. The only site that gives you immediate window cleaning quotes for Brampton and GTA. Also available: gutter cleaning, waste removal estimates.',
   keywords:
-    'window cleaning estimate Brampton, free window cleaning quote GTA, window cleaning cost calculator, residential window cleaning estimate, commercial window cleaning quote, Brampton window cleaning prices, GTA window cleaning rates',
+    'instant window cleaning estimate, online window cleaning calculator, no phone call window cleaning quote, immediate window cleaning price, window cleaning estimate calculator Brampton, GTA window cleaning cost calculator, instant quote window cleaning',
   openGraph: {
-    title: 'Free Window Cleaning Estimate in Brampton & GTA',
+    title: 'Instant Window Cleaning Estimate Calculator | No Phone Calls',
     description:
-      'Get a free window cleaning estimate for your home or business in Brampton and GTA. Quick, accurate quotes for residential and commercial window cleaning services.',
+      'Get an instant window cleaning estimate online - no phone calls, no waiting. The only site that gives you immediate window cleaning quotes for Brampton and GTA.',
     locale: 'en_CA',
     type: 'website',
   },
