@@ -1,6 +1,7 @@
 // app/api/submitForm/route.ts
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { sendContactFormEmail } from '@/lib/email'
 
 // Simple rate limiting configuration
 const RATE_LIMIT = {
@@ -10,14 +11,17 @@ const RATE_LIMIT = {
 }
 
 // Clean up old entries every 5 minutes
-setInterval(() => {
-  const now = Date.now()
-  for (const [key, value] of RATE_LIMIT.store.entries()) {
-    if (now > value.resetTime) {
-      RATE_LIMIT.store.delete(key)
+setInterval(
+  () => {
+    const now = Date.now()
+    for (const [key, value] of RATE_LIMIT.store.entries()) {
+      if (now > value.resetTime) {
+        RATE_LIMIT.store.delete(key)
+      }
     }
-  }
-}, 5 * 60 * 1000)
+  },
+  5 * 60 * 1000
+)
 
 export async function POST(request: Request) {
   try {
@@ -61,6 +65,7 @@ export async function POST(request: Request) {
       )
     }
 
+    // Save to database
     await prisma.contact.create({
       data: {
         name: formData.name,
@@ -73,11 +78,28 @@ export async function POST(request: Request) {
       },
     })
 
+    // Send email notification
+    try {
+      await sendContactFormEmail({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        address: formData.address,
+        city: formData.city,
+        postalCode: formData.postalCode,
+        message: formData.message,
+      })
+    } catch (emailError) {
+      console.error('Failed to send email notification:', emailError)
+      // Don't fail the request if email fails, just log it
+    }
+
     return NextResponse.json(
       { success: true, message: 'Contact created successfully' },
       { status: 201 }
     )
-  } catch {
+  } catch (error) {
+    console.error('Error in submitForm:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

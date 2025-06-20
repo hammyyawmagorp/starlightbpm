@@ -4,6 +4,7 @@ import {
   PrismaClientKnownRequestError,
   PrismaClientValidationError,
 } from '@prisma/client/runtime/library'
+import { sendEstimatorFormEmail } from '@/lib/email'
 
 const prisma = new PrismaClient()
 
@@ -15,31 +16,23 @@ const RATE_LIMIT = {
 }
 
 // Clean up old entries every 5 minutes
-setInterval(() => {
-  const now = Date.now()
-  for (const [key, value] of RATE_LIMIT.store.entries()) {
-    if (now > value.resetTime) {
-      RATE_LIMIT.store.delete(key)
+setInterval(
+  () => {
+    const now = Date.now()
+    for (const [key, value] of RATE_LIMIT.store.entries()) {
+      if (now > value.resetTime) {
+        RATE_LIMIT.store.delete(key)
+      }
     }
-  }
-}, 5 * 60 * 1000)
-
-type ErrorWithMessage = {
-  message: string
-}
-
-function isErrorWithMessage(error: unknown): error is ErrorWithMessage {
-  return (
-    typeof error === 'object' &&
-    error !== null &&
-    'message' in error &&
-    typeof (error as Record<string, unknown>).message === 'string'
-  )
-}
+  },
+  5 * 60 * 1000
+)
 
 function getErrorMessage(error: unknown): string {
-  if (isErrorWithMessage(error)) return error.message
-  return 'Unknown error'
+  if (error instanceof Error) {
+    return error.message
+  }
+  return String(error)
 }
 
 export async function POST(request: Request) {
@@ -94,32 +87,42 @@ export async function POST(request: Request) {
 
     // Format estimate details
     let estimateDetails: string
-    if (formData.estimateDetails) {
-      estimateDetails =
-        typeof formData.estimateDetails === 'string'
-          ? formData.estimateDetails
-          : JSON.stringify(formData.estimateDetails)
+    if (formData.storyType === 'one') {
+      if (formData.cleaningType === 'full') {
+        const base = 175
+        const baseCalc = formData.windowCount * 6.5
+        const price = formData.windowCount >= 26 ? baseCalc : base
+        estimateDetails = `One story full-cleaning for ${formData.windowCount} windows: $${price} - $${price + 200} + HST`
+      } else {
+        const base = 125
+        const baseCalc = formData.windowCount * 5
+        const price = formData.windowCount >= 26 ? baseCalc : base
+        estimateDetails = `One story exterior only cleaning for ${formData.windowCount} windows: $${price} - $${price + 200} + HST`
+      }
     } else {
-      // If for some reason it's missing, throw an error
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Missing estimate details',
-          error: 'Validation error',
-        },
-        { status: 400 }
-      )
+      if (formData.cleaningType === 'full') {
+        const base = 250
+        const baseCalc = formData.windowCount * 6.5
+        const price = formData.windowCount >= 38 ? baseCalc : base
+        estimateDetails = `Full-cleaning for a 2+ story house with ${formData.windowCount} windows: $${price} - $${price + 200} + HST`
+      } else {
+        const base = 125
+        const baseCalc = formData.windowCount * 5
+        const price = formData.windowCount >= 38 ? baseCalc : base
+        estimateDetails = `Exterior only cleaning for a 2+ story house with ${formData.windowCount} windows: $${price} - $${price + 200} + HST`
+      }
     }
 
-    // Create the submission
     const submissionData = {
       name: formData.name,
       email: formData.email,
       phone: formData.phone,
-      address: formData.address || undefined,
-      city: formData.city || undefined,
-      postal_code: formData.postalCode || undefined,
-      message: formData.message || undefined,
+      address: formData.address || null,
+      city: formData.city || null,
+      postal_code: formData.postalCode || null,
+      window_count: formData.windowCount,
+      story_type: formData.storyType,
+      cleaning_type: formData.cleaningType,
       estimate_details: estimateDetails,
       conf_number: confNumber,
     }
@@ -128,6 +131,25 @@ export async function POST(request: Request) {
       const newSubmission = await prisma.estimatorSubmission.create({
         data: submissionData,
       })
+
+      // Send email notification
+      try {
+        await sendEstimatorFormEmail({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          postalCode: formData.postalCode,
+          windowCount: formData.windowCount,
+          storyType: formData.storyType,
+          cleaningType: formData.cleaningType,
+          confNumber: confNumber,
+        })
+      } catch (emailError) {
+        console.error('Failed to send email notification:', emailError)
+        // Don't fail the request if email fails, just log it
+      }
 
       return NextResponse.json({
         success: true,
