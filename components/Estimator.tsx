@@ -164,6 +164,9 @@ export default function Estimator() {
       city: city || null,
       postalCode: postalCode || null,
       message,
+      windowCount: parseInt(numWindows),
+      storyType,
+      cleaningType,
       estimateDetails: estimateDetails ? JSON.stringify(estimateDetails) : null,
     }
 

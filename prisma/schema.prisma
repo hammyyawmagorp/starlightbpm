@@ -16,6 +16,10 @@ model EstimatorSubmission {
   city            String?  @db.VarChar(255)
   postal_code     String?  @db.VarChar(255)
   message         String?
+  window_count    Int?
+  story_type      String?  @db.VarChar(50)
+  cleaning_type   String?  @db.VarChar(50)
+  price_range     String?  @db.VarChar(100)
   estimate_details String?  @db.Text
   conf_number     String   @db.VarChar(10) @unique
   created_at      DateTime @default(now())

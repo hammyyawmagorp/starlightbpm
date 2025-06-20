@@ -22,6 +22,7 @@ export interface EstimatorFormData {
   windowCount: number
   storyType: string
   cleaningType: string
+  priceRange: string
   confNumber: string
 }
 
@@ -109,6 +110,7 @@ export async function sendEstimatorFormEmail(data: EstimatorFormData) {
               <p><strong>Number of Windows:</strong> ${data.windowCount}</p>
               <p><strong>Story Type:</strong> ${data.storyType === 'one' ? 'One Story' : 'Two+ Stories'}</p>
               <p><strong>Cleaning Type:</strong> ${data.cleaningType === 'full' ? 'Full Cleaning' : 'Exterior Only'}</p>
+              <p><strong>Price Range:</strong> ${data.priceRange}</p>
             </div>
             
             <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">

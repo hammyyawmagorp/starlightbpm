@@ -87,17 +87,21 @@ export async function POST(request: Request) {
 
     // Format estimate details
     let estimateDetails: string
+    let priceRange: string
+
     if (formData.storyType === 'one') {
       if (formData.cleaningType === 'full') {
         const base = 175
         const baseCalc = formData.windowCount * 6.5
         const price = formData.windowCount >= 26 ? baseCalc : base
         estimateDetails = `One story full-cleaning for ${formData.windowCount} windows: $${price} - $${price + 200} + HST`
+        priceRange = `$${price} - $${price + 200} + HST`
       } else {
         const base = 125
         const baseCalc = formData.windowCount * 5
         const price = formData.windowCount >= 26 ? baseCalc : base
         estimateDetails = `One story exterior only cleaning for ${formData.windowCount} windows: $${price} - $${price + 200} + HST`
+        priceRange = `$${price} - $${price + 200} + HST`
       }
     } else {
       if (formData.cleaningType === 'full') {
@@ -105,11 +109,13 @@ export async function POST(request: Request) {
         const baseCalc = formData.windowCount * 6.5
         const price = formData.windowCount >= 38 ? baseCalc : base
         estimateDetails = `Full-cleaning for a 2+ story house with ${formData.windowCount} windows: $${price} - $${price + 200} + HST`
+        priceRange = `$${price} - $${price + 200} + HST`
       } else {
         const base = 125
         const baseCalc = formData.windowCount * 5
         const price = formData.windowCount >= 38 ? baseCalc : base
         estimateDetails = `Exterior only cleaning for a 2+ story house with ${formData.windowCount} windows: $${price} - $${price + 200} + HST`
+        priceRange = `$${price} - $${price + 200} + HST`
       }
     }
 
@@ -120,9 +126,11 @@ export async function POST(request: Request) {
       address: formData.address || null,
       city: formData.city || null,
       postal_code: formData.postalCode || null,
+      message: formData.message || null,
       window_count: formData.windowCount,
       story_type: formData.storyType,
       cleaning_type: formData.cleaningType,
+      price_range: priceRange,
       estimate_details: estimateDetails,
       conf_number: confNumber,
     }
@@ -144,6 +152,7 @@ export async function POST(request: Request) {
           windowCount: formData.windowCount,
           storyType: formData.storyType,
           cleaningType: formData.cleaningType,
+          priceRange: priceRange,
           confNumber: confNumber,
         })
       } catch (emailError) {
