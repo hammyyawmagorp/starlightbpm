@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
@@ -8,6 +7,23 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    // 1. Overriding core screens outside of 'extend' aligns Tailwind's responsive engine
+    screens: {
+      sm: '640px',
+      md: '768px',
+      lg: '1170px', // Custom desktop breakpoint
+      xl: '1280px',
+      '2xl': '1536px',
+      xs: '400px',
+      '3xl': '1680px',
+      '4xl': '2200px',
+      'service-card': '315px',
+      'service-card-sm': '435px',
+      'service-card-md': '768px',
+      'service-card-lg': '857px',
+      'service-card-xl': '1168px',
+      'service-card-2xl': '1393px',
+    },
     extend: {
       keyframes: {
         drawLine: {
@@ -68,28 +84,17 @@ const config: Config = {
           logo: '#eee8a9',
         },
       },
-      screens: {
-        xs: '400px',
-        '3xl': '1680px',
-        '4xl': '2200px',
-        lg: '1170px',
-        'service-card': '315px',
-        'service-card-sm': '435px',
-        'service-card-md': '768px',
-        'service-card-lg': '857px',
-        'service-card-xl': '1168px',
-        'service-card-2xl': '1393px',
-      },
       maxWidth: {
         '10xl': '1512px',
       },
       borderRadius: {
         '5xl': '40px',
       },
+      // 2. Variable-backed hooks ensure seamless Next.js sub-resource font loading
       fontFamily: {
-        bebas: ['Bebas Neue', 'sans-serif'],
-        ubuntu: ['Ubuntu', 'sans-serif'],
-        inter: ['Inter', 'sans-serif'],
+        bebas: ['var(--font-bebas)', 'sans-serif'],
+        ubuntu: ['var(--font-ubuntu)', 'sans-serif'],
+        inter: ['var(--font-inter)', 'sans-serif'],
       },
       height: {
         'service-card': '440px',
@@ -103,4 +108,5 @@ const config: Config = {
   },
   plugins: [],
 }
+
 export default config

@@ -18,8 +18,6 @@ const Footer = () => {
               alt="Starlight Building Maintenance Icon"
               width={65}
               height={65}
-              priority={true}
-              loading="eager"
               unoptimized={true}
               className="object-contain hover:scale-110 transition-transform"
             />
@@ -104,16 +102,24 @@ const Footer = () => {
                         alt="Facebook"
                         width={24}
                         height={24}
+                        className="w-6"
+                        style={{ height: 'auto' }}
                       />
                     </Link>
                   </li>
                   <li>
-                    <Link href="https://instagram.com" target="_blank">
+                    <Link
+                      href="https://instagram.com"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       <Image
                         src="/instagram.svg"
                         alt="Instagram"
                         width={24}
                         height={24}
+                        className="w-6"
+                        style={{ height: 'auto' }}
                       />
                     </Link>
                   </li>
