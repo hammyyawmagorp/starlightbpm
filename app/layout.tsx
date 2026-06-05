@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     'Family-owned Canadian cleaning company based in Brampton, Ontario. We provide professional window cleaning, gutter maintenance, and property care services exclusively in the Greater Toronto Area (GTA).',
   keywords:
     'Canadian cleaning services, Brampton window cleaning, GTA property maintenance, Ontario cleaning company, Canadian building maintenance, Greater Toronto Area cleaning services',
+  alternates: {
+    canonical: 'https://starlightbpm.ca',
+  },
   openGraph: {
     title: 'Starlight Building Maintenance | GTA Cleaning Services',
     description:
@@ -33,48 +36,47 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-CA">
-      <head>
-        <Script
-          id="schema-markup"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'LocalBusiness',
-              name: 'Starlight Building Maintenance',
-              description:
-                'Family-owned Canadian cleaning company providing professional window cleaning, gutter maintenance, and property care services in the Greater Toronto Area.',
-              address: {
-                '@type': 'PostalAddress',
-                addressLocality: 'Brampton',
-                addressRegion: 'ON',
-                addressCountry: 'CA',
+      <Script
+        id="schema-markup"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'LocalBusiness',
+            name: 'Starlight Building Maintenance',
+            description:
+              'Family-owned Canadian cleaning company providing professional window cleaning, gutter maintenance, and property care services in the Greater Toronto Area.',
+            address: {
+              '@type': 'PostalAddress',
+              addressLocality: 'Brampton',
+              addressRegion: 'ON',
+              addressCountry: 'CA',
+            },
+            areaServed: {
+              '@type': 'GeoCircle',
+              geoMidpoint: {
+                '@type': 'GeoCoordinates',
+                latitude: '43.687698',
+                longitude: '-79.763529',
               },
-              areaServed: {
-                '@type': 'GeoCircle',
-                geoMidpoint: {
-                  '@type': 'GeoCoordinates',
-                  latitude: '43.5890',
-                  longitude: '-79.6441',
-                },
-                geoRadius: '50000',
-                description: 'Greater Toronto Area (GTA)',
+              geoRadius: '50000',
+              description: 'Greater Toronto Area (GTA)',
+            },
+            serviceArea: {
+              '@type': 'GeoCircle',
+              geoMidpoint: {
+                '@type': 'GeoCoordinates',
+                latitude: '43.5890',
+                longitude: '-79.6441',
               },
-              serviceArea: {
-                '@type': 'GeoCircle',
-                geoMidpoint: {
-                  '@type': 'GeoCoordinates',
-                  latitude: '43.5890',
-                  longitude: '-79.6441',
-                },
-                geoRadius: '50000',
-                description: 'Greater Toronto Area (GTA)',
-              },
-              url: 'https://starlightbpm.ca',
-            }),
-          }}
-        />
-      </head>
+              geoRadius: '50000',
+              description: 'Greater Toronto Area (GTA)',
+            },
+            url: 'https://starlightbpm.ca',
+          }),
+        }}
+      />
+
       <body className="flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-1">{children}</main>

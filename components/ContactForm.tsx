@@ -55,7 +55,7 @@ export default function ContactForm({
   const isPhoneValid = phone.replace(/\D/g, '').length >= 10
   const isNameValid = name.match(/^[a-zA-Z\s]+$/) && name.length >= 2
   const isPostalCodeValid = postalCode.match(
-    /^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/
+    /^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/,
   )
   const isAddressValid = address.length >= 5
   const isCityValid = city.match(/^[a-zA-Z\s]+$/) && city.length >= 2
@@ -179,9 +179,15 @@ export default function ContactForm({
           <h1 className="font-bold text-logoblue-30 text-4xl mb-2 text-center">
             Contact Us
           </h1>
-          <p className="text-sm text-gray-600 mb-8 text-center">
+          <p className="text-sm text-gray-600 mb-5 text-center">
             All <span className="text-red-500">*</span> marked fields are
             required
+          </p>
+          <p className="text-m text-black mb-8 text-center">
+            Email:{' '}
+            <span className="text-blue-800 font-semibold">
+              starlightbpm@gmail.com
+            </span>
           </p>
 
           {estimate && (

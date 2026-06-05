@@ -30,7 +30,8 @@ export default function Home() {
             transition={{ duration: 0.8, ease: 'easeOut' }}
             className="text-6xl font-bebas pb-3"
           >
-            Starlight Building Maintenance
+            Starlight Building Maintenance & Window Cleaning in Brampton &
+            Greater Toronto Area
           </motion.h1>
 
           <motion.h2
@@ -93,9 +94,9 @@ export default function Home() {
         >
           {/* Who Are We - Left Side on Large Screens */}
           <div className="w-full lg:w-1/2 px-6">
-            <motion.h1 className="font-bold text-logoblue-30 flexCenter mb-10 mt-10 text-5xl">
+            <motion.h2 className="font-bold text-logoblue-30 flexCenter mb-10 mt-10 text-5xl">
               Who Are We?
-            </motion.h1>
+            </motion.h2>
             <motion.h2 className="font-ubuntu font-medium italic flexCenter pb-4 text-2xl">
               Built on Trust—Committed to Excellence
             </motion.h2>

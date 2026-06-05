@@ -94,7 +94,11 @@ const Footer = () => {
                 <h4 className="bold-18 whitespace-nowrap">Follow Us</h4>
                 <ul className="regular-14 flex gap-4 text-gray-30">
                   <li>
-                    <Link href="https://facebook.com" target="_blank">
+                    <Link
+                      href="https://www.facebook.com/share/18gtyx6AZW/"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       <Image
                         src="/facebook.svg"
                         alt="Facebook"
@@ -120,8 +124,8 @@ const Footer = () => {
         </div>
         <div className="h-[1px] w-full bg-gradient-to-r from-logoblue-30 via-yellow-logo to-logobrown-10"></div>
         <p className="text-l w-full text-center text-logobrown-10">
-          © {new Date().getFullYear()} Starlight Building & Property Maintenance
-          Inc. All rights reserved.
+          © {new Date().getFullYear()} Starlight Building & Property
+          Maintenance Inc. All rights reserved.
         </p>
         <p className="text-xs text-center text-logobrown-10 pb-5">
           Website Designed & Distributed by ©Zarik Tech
